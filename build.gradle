@@ -1,0 +1,52 @@
+buildscript {
+	ext.kotlin_version = '1.2.40'
+	repositories {
+		jcenter()
+		maven {
+			name = "forge"
+			url = "http://files.minecraftforge.net/maven"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+repositories {
+	maven {
+		url = "https://maven.shadowfacts.net"
+	}
+}
+
+dependencies {
+	compile group: "net.shadowfacts", name: "Forgelin", version: "1.6.0"
+}
+
+version = "0.1.0"
+group = "click.vpzom.mods.japta2"
+archivesBaseName = "JAPTA2-mc1.12.2"
+
+minecraft {
+	version = "1.12.2-14.23.2.2611"
+	runDir = "run"
+	mappings = "snapshot_20171003"
+}
+
+processResources {
+	inputs.property "version", project.version
+	inputs.property "mcversion", project.minecraft.version
+
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
+
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
+}
