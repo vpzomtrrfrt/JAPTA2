@@ -45,11 +45,13 @@ object JAPTA2 {
 	}
 
 	private fun registerItemModel(item: Item) {
-		registerItemModel(item, 0, locationForName(item.getUnlocalizedName()))
+		val name = item.getRegistryName().toString()
+		println("Registering " + name)
+		registerItemModel(item, 0, locationForName(name))
 	}
 
 	private fun locationForName(name: String): ModelResourceLocation {
-		return ModelResourceLocation(ID + ":" + name, "inventory")
+		return ModelResourceLocation(name, "inventory")
 	}
 
 	private fun registerItemModel(item: Item, meta: Int, location: ModelResourceLocation) {
