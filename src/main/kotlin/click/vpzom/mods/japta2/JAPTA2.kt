@@ -1,6 +1,7 @@
 package click.vpzom.mods.japta2
 
 import click.vpzom.mods.japta2.block.BlockFluxHopper
+import click.vpzom.mods.japta2.block.BlockPowerCabinet
 import click.vpzom.mods.japta2.block.BlockPowerCabinetBase
 import click.vpzom.mods.japta2.block.TileEntityPowerCabinetBase
 import net.minecraft.block.Block
@@ -8,6 +9,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraft.item.Item
 import net.minecraft.item.ItemBlock
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
@@ -31,6 +33,9 @@ object JAPTA2 {
 	fun clientInit(event: FMLInitializationEvent) {
 		registerItemModel(BlockFluxHopper.item)
 		registerItemModel(BlockPowerCabinetBase.item)
+		for(i in 0..15) {
+			registerItemModel(BlockPowerCabinet.Item, i)
+		}
 	}
 
 	@Mod.EventBusSubscriber
@@ -40,7 +45,8 @@ object JAPTA2 {
 		fun registerBlocks(event: RegistryEvent.Register<Block>) {
 			event.registry.registerAll(
 					BlockFluxHopper,
-					BlockPowerCabinetBase
+					BlockPowerCabinetBase,
+					BlockPowerCabinet
 			)
 		}
 
@@ -49,7 +55,8 @@ object JAPTA2 {
 		fun registerItems(event: RegistryEvent.Register<Item>) {
 			event.registry.registerAll(
 					BlockFluxHopper.item,
-					BlockPowerCabinetBase.item
+					BlockPowerCabinetBase.item,
+					BlockPowerCabinet.Item
 			)
 		}
 	}
@@ -61,9 +68,13 @@ object JAPTA2 {
 	}
 
 	private fun registerItemModel(item: Item) {
+		registerItemModel(item, 0)
+	}
+
+	private fun registerItemModel(item: Item, meta: Int) {
 		val name = item.getRegistryName().toString()
 		println("Registering " + name)
-		registerItemModel(item, 0, locationForName(name))
+		registerItemModel(item, meta, locationForName(name))
 	}
 
 	private fun locationForName(name: String): ModelResourceLocation {
