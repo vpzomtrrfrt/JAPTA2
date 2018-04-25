@@ -74,15 +74,48 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		return accepted
 	}
 	override fun attemptExtractEnergy(side: EnumFacing?, maxExtract: Long, simulate: Boolean): Long {
-		var extracted = 0L
-		if(maxExtract >= internalStorage) {
-			extracted += internalStorage
-			if(!simulate) internalStorage = 0
-		}
-		else {
-			extracted += maxExtract
+		if(maxExtract <= internalStorage) {
 			if(!simulate) internalStorage -= maxExtract
+			return maxExtract
 		}
+		var extracted = 0L
+
+		if(!simulate) extracted += internalStorage
+		internalStorage = 0
+
+		val world = getWorld()
+		val myPos = getPos()
+		var curPos = myPos
+		while(true) {
+			curPos = curPos.up()
+			val state = world.getBlockState(curPos)
+			if(state.getBlock() != BlockPowerCabinet) {
+				break
+			}
+		}
+		while(true) {
+			curPos = curPos.down()
+			if(curPos.y <= myPos.y) break
+
+			val state = world.getBlockState(curPos)
+			var value = state.getValue(BlockPowerCabinet.PROP_VALUE)
+			if(value <= 0) continue
+			while(value > 0) {
+				value--
+				if(extracted + BlockPowerCabinet.LINE_VALUE >= maxExtract) {
+					if(!simulate) {
+						internalStorage = extracted + BlockPowerCabinet.LINE_VALUE - maxExtract
+					}
+					extracted = maxExtract
+					break
+				}
+			}
+			if(!simulate) {
+				world.setBlockState(curPos, state.withProperty(BlockPowerCabinet.PROP_VALUE, value))
+			}
+			if(extracted >= maxExtract) break
+		}
+
 		return extracted
 	}
 

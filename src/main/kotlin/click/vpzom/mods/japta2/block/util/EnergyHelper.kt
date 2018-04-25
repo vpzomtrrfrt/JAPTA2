@@ -13,4 +13,12 @@ object EnergyHelper {
 		}
 		return null
 	}
+
+	fun extractEnergy(world: World, pos: BlockPos, side: EnumFacing?, maxExtract: Long, simulate: Boolean = false): Long {
+		val te = world.getTileEntity(pos)
+		if(te is TileEntityJPTBase) {
+			return te.attemptExtractEnergy(side, maxExtract, simulate)
+		}
+		return 0
+	}
 }

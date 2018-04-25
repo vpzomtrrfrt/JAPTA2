@@ -13,8 +13,8 @@ import net.minecraft.world.World
 object ItemRFMeter: Item() {
 	init {
 		setMaxStackSize(1)
-		setUnlocalizedName("rfMeter")
-		setRegistryName("rfMeter")
+		setUnlocalizedName("rfmeter")
+		setRegistryName("rfmeter")
 	}
 
 	override fun onItemUse(player: EntityPlayer, world: World, pos: BlockPos, hand: EnumHand, side: EnumFacing, f1: Float, f2: Float, f3: Float): EnumActionResult {

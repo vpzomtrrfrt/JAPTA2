@@ -3,6 +3,7 @@ package click.vpzom.mods.japta2
 import click.vpzom.mods.japta2.block.BlockFluxHopper
 import click.vpzom.mods.japta2.block.BlockPowerCabinet
 import click.vpzom.mods.japta2.block.BlockPowerCabinetBase
+import click.vpzom.mods.japta2.block.TileEntityFluxHopper
 import click.vpzom.mods.japta2.block.TileEntityPowerCabinetBase
 import click.vpzom.mods.japta2.item.ItemRFMeter
 import net.minecraft.block.Block
@@ -26,6 +27,7 @@ object JAPTA2 {
 
 	@Mod.EventHandler
 	fun preInit(event: FMLPreInitializationEvent) {
+		GameRegistry.registerTileEntity(TileEntityFluxHopper::class.java, ID + ":FluxHopper")
 		GameRegistry.registerTileEntity(TileEntityPowerCabinetBase::class.java, ID + ":PowerCabinetBase")
 	}
 
