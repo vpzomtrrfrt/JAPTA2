@@ -21,4 +21,12 @@ object EnergyHelper {
 		}
 		return 0
 	}
+
+	fun insertEnergy(world: World, pos: BlockPos, side: EnumFacing?, maxInsert: Long, simulate: Boolean = false): Long {
+		val te = world.getTileEntity(pos)
+		if(te is TileEntityJPTBase) {
+			return te.attemptInputEnergy(side, maxInsert, simulate)
+		}
+		return 0
+	}
 }

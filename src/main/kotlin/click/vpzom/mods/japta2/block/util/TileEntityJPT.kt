@@ -52,4 +52,9 @@ abstract class TileEntityJPT: TileEntityJPTBase() {
 		super.readFromNBT(tag)
 		stored = tag.getLong(KEY_INTERNAL_ENERGY)
 	}
+
+	protected fun pushEnergy(direction: EnumFacing) {
+		val inserted = EnergyHelper.insertEnergy(world, getPos().offset(direction), direction.opposite, stored)
+		stored -= inserted
+	}
 }

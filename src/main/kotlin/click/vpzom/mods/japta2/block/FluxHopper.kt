@@ -70,10 +70,21 @@ class TileEntityFluxHopper: TileEntityJPT(), ITickable {
 	}
 
 	override fun update() {
+		val world = getWorld()
+		if(world.isRemote) return
+
 		val remaining = getMaxStoredEnergy() - stored
 
 		if(remaining > 0) {
-			stored += EnergyHelper.extractEnergy(getWorld(), getPos().up(), EnumFacing.DOWN, remaining)
+			val extracted = EnergyHelper.extractEnergy(world, getPos().up(), EnumFacing.DOWN, remaining)
+			stored += extracted
+		}
+
+		if(stored > 0) {
+			val state = world.getBlockState(getPos())
+			if(state.getBlock() == BlockFluxHopper) {
+				pushEnergy(state.getValue(FACING))
+			}
 		}
 	}
 }

@@ -60,19 +60,6 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		}
 		return total
 	}
-	override fun attemptInputEnergy(side: EnumFacing?, maxInput: Long, simulate: Boolean): Long {
-		var accepted = 0L
-		val remaining = MAX_BASE_ENERGY - internalStorage
-		if(maxInput >= remaining) {
-			accepted += remaining
-			if(!simulate) internalStorage = MAX_BASE_ENERGY
-		}
-		else {
-			accepted += maxInput
-			if(!simulate) internalStorage += maxInput
-		}
-		return accepted
-	}
 	override fun attemptExtractEnergy(side: EnumFacing?, maxExtract: Long, simulate: Boolean): Long {
 		if(maxExtract <= internalStorage) {
 			if(!simulate) internalStorage -= maxExtract
@@ -109,6 +96,9 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 					extracted = maxExtract
 					break
 				}
+				else {
+					extracted += BlockPowerCabinet.LINE_VALUE
+				}
 			}
 			if(!simulate) {
 				world.setBlockState(curPos, state.withProperty(BlockPowerCabinet.PROP_VALUE, value))
@@ -117,6 +107,52 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		}
 
 		return extracted
+	}
+
+	override fun attemptInputEnergy(side: EnumFacing?, maxInput: Long, simulate: Boolean): Long {
+		var inserted = -internalStorage
+
+		if(!simulate) internalStorage = 0
+
+		val world = getWorld()
+		val myPos = getPos()
+		var curPos = myPos
+
+		while(true) {
+			curPos = curPos.up()
+			val state = world.getBlockState(curPos)
+			if(state.getBlock() != BlockPowerCabinet) break
+
+			var value = state.getValue(BlockPowerCabinet.PROP_VALUE)
+			if(value >= 15) continue
+			while(value < 15) {
+				if(inserted + BlockPowerCabinet.LINE_VALUE >= maxInput) {
+					if(!simulate) {
+						internalStorage = inserted + BlockPowerCabinet.LINE_VALUE - maxInput
+					}
+					inserted = maxInput
+					break
+				}
+				else {
+					value++
+					inserted += BlockPowerCabinet.LINE_VALUE
+				}
+			}
+			if(!simulate) {
+				world.setBlockState(curPos, state.withProperty(BlockPowerCabinet.PROP_VALUE, value))
+			}
+			if(inserted >= maxInput) break
+		}
+		if(inserted < maxInput && maxInput - inserted <= MAX_BASE_ENERGY) {
+			if(!simulate) internalStorage = maxInput - inserted
+			inserted = maxInput
+		}
+		if(inserted < 0) {
+			if(!simulate) internalStorage += -inserted
+			inserted = 0
+		}
+		println("inserting " + inserted + " / " + maxInput)
+		return inserted
 	}
 
 	override fun writeToNBT(_tag: NBTTagCompound): NBTTagCompound {
