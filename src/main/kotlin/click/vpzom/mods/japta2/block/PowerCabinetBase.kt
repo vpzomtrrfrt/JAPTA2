@@ -27,13 +27,40 @@ object BlockPowerCabinetBase: BlockModelContainer(Material.IRON) {
 
 class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 	var internalStorage = 0L
-	override fun getStoredEnergy(side: EnumFacing): Long {
-		return internalStorage
+	override fun getStoredEnergy(side: EnumFacing?): Long {
+		val world = getWorld()
+		var total = internalStorage
+		var curPos = getPos()
+		while(true) {
+			curPos = curPos.up()
+			val state = world.getBlockState(curPos)
+			if(state.getBlock() == BlockPowerCabinet) {
+				val value = state.getValue(BlockPowerCabinet.PROP_VALUE)
+				total += value * BlockPowerCabinet.LINE_VALUE
+			}
+			else {
+				break
+			}
+		}
+		return total
 	}
-	override fun getMaxStoredEnergy(side: EnumFacing): Long {
-		return MAX_BASE_ENERGY
+	override fun getMaxStoredEnergy(side: EnumFacing?): Long {
+		var total = MAX_BASE_ENERGY
+		val world = getWorld()
+		var curPos = getPos()
+		while(true) {
+			curPos = curPos.up()
+			val state = world.getBlockState(curPos)
+			if(state.getBlock() == BlockPowerCabinet) {
+				total += BlockPowerCabinet.LINE_VALUE * 15
+			}
+			else {
+				break
+			}
+		}
+		return total
 	}
-	override fun attemptInputEnergy(side: EnumFacing, maxInput: Long, simulate: Boolean): Long {
+	override fun attemptInputEnergy(side: EnumFacing?, maxInput: Long, simulate: Boolean): Long {
 		var accepted = 0L
 		val remaining = MAX_BASE_ENERGY - internalStorage
 		if(maxInput >= remaining) {
@@ -46,7 +73,7 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		}
 		return accepted
 	}
-	override fun attemptExtractEnergy(side: EnumFacing, maxExtract: Long, simulate: Boolean): Long {
+	override fun attemptExtractEnergy(side: EnumFacing?, maxExtract: Long, simulate: Boolean): Long {
 		var extracted = 0L
 		if(maxExtract >= internalStorage) {
 			extracted += internalStorage

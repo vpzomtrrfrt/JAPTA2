@@ -15,6 +15,8 @@ import net.minecraft.world.World
 val VALUE = PropertyInteger.create("value", 0, 15)
 
 object BlockPowerCabinet: Block(Material.IRON) {
+	val LINE_VALUE = 2000
+	val PROP_VALUE = VALUE
 	init {
 		setRegistryName("powercabinet")
 		setUnlocalizedName("powercabinet")

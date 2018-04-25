@@ -4,6 +4,7 @@ import click.vpzom.mods.japta2.block.BlockFluxHopper
 import click.vpzom.mods.japta2.block.BlockPowerCabinet
 import click.vpzom.mods.japta2.block.BlockPowerCabinetBase
 import click.vpzom.mods.japta2.block.TileEntityPowerCabinetBase
+import click.vpzom.mods.japta2.item.ItemRFMeter
 import net.minecraft.block.Block
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
@@ -36,6 +37,8 @@ object JAPTA2 {
 		for(i in 0..15) {
 			registerItemModel(BlockPowerCabinet.Item, i)
 		}
+
+		registerItemModel(ItemRFMeter)
 	}
 
 	@Mod.EventBusSubscriber
@@ -56,7 +59,9 @@ object JAPTA2 {
 			event.registry.registerAll(
 					BlockFluxHopper.item,
 					BlockPowerCabinetBase.item,
-					BlockPowerCabinet.Item
+					BlockPowerCabinet.Item,
+
+					ItemRFMeter
 			)
 		}
 	}

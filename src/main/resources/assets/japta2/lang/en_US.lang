@@ -1,1 +1,4 @@
+item.rfmeter.name=Energy Meter
 tile.fluxhopper.name=Flux Hopper
+text.japta2.rfmeter.no=Could not read energy values
+text.japta2.rfmeter.result=Energy: %d / %d
