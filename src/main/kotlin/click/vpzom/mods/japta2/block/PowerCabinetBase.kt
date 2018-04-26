@@ -151,7 +151,6 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 			if(!simulate) internalStorage += -inserted
 			inserted = 0
 		}
-		println("inserting " + inserted + " / " + maxInput)
 		return inserted
 	}
 
