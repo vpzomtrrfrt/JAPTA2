@@ -1,6 +1,7 @@
 package click.vpzom.mods.japta2.block
 
 import click.vpzom.mods.japta2.JAPTA2
+import click.vpzom.mods.japta2.block.util.BlockModelContainer
 import click.vpzom.mods.japta2.block.util.TileEntityJPTBase
 import net.minecraft.block.material.Material
 import net.minecraft.nbt.NBTTagCompound

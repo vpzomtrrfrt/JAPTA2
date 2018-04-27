@@ -1,4 +1,4 @@
-package click.vpzom.mods.japta2.block
+package click.vpzom.mods.japta2.block.util
 
 import net.minecraft.block.BlockContainer
 import net.minecraft.block.material.Material
