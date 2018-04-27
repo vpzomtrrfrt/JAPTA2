@@ -1,8 +1,11 @@
 package click.vpzom.mods.japta2
 
+import click.vpzom.mods.japta2.block.BlockElevatorShaft
+import click.vpzom.mods.japta2.block.BlockElevatorTop
 import click.vpzom.mods.japta2.block.BlockFluxHopper
 import click.vpzom.mods.japta2.block.BlockPowerCabinet
 import click.vpzom.mods.japta2.block.BlockPowerCabinetBase
+import click.vpzom.mods.japta2.block.TileEntityElevatorTop
 import click.vpzom.mods.japta2.block.TileEntityFluxHopper
 import click.vpzom.mods.japta2.block.TileEntityPowerCabinetBase
 import click.vpzom.mods.japta2.item.ItemRFMeter
@@ -27,6 +30,7 @@ object JAPTA2 {
 
 	@Mod.EventHandler
 	fun preInit(event: FMLPreInitializationEvent) {
+		GameRegistry.registerTileEntity(TileEntityElevatorTop::class.java, ID + ":ElevatorTop")
 		GameRegistry.registerTileEntity(TileEntityFluxHopper::class.java, ID + ":FluxHopper")
 		GameRegistry.registerTileEntity(TileEntityPowerCabinetBase::class.java, ID + ":PowerCabinetBase")
 	}
@@ -49,6 +53,8 @@ object JAPTA2 {
 		@SubscribeEvent
 		fun registerBlocks(event: RegistryEvent.Register<Block>) {
 			event.registry.registerAll(
+					BlockElevatorShaft,
+					BlockElevatorTop,
 					BlockFluxHopper,
 					BlockPowerCabinetBase,
 					BlockPowerCabinet
@@ -59,6 +65,8 @@ object JAPTA2 {
 		@SubscribeEvent
 		fun registerItems(event: RegistryEvent.Register<Item>) {
 			event.registry.registerAll(
+					BlockElevatorShaft.item,
+					BlockElevatorTop.item,
 					BlockFluxHopper.item,
 					BlockPowerCabinetBase.item,
 					BlockPowerCabinet.Item,
