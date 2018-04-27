@@ -1,0 +1,6 @@
+{
+    "parent": "japta2:block/blaster",
+    "textures": {
+        "front": "japta2:blocks/fluxblaster_front"
+    }
+}

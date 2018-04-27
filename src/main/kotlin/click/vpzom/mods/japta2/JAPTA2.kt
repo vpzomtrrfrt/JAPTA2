@@ -8,6 +8,8 @@ import click.vpzom.mods.japta2.block.BlockPowerCabinetBase
 import click.vpzom.mods.japta2.block.TileEntityElevatorTop
 import click.vpzom.mods.japta2.block.TileEntityFluxHopper
 import click.vpzom.mods.japta2.block.TileEntityPowerCabinetBase
+import click.vpzom.mods.japta2.block.blaster.BlockFluxBlaster
+import click.vpzom.mods.japta2.block.blaster.TileEntityFluxBlaster
 import click.vpzom.mods.japta2.item.ItemRFMeter
 import net.minecraft.block.Block
 import net.minecraft.client.Minecraft
@@ -31,6 +33,7 @@ object JAPTA2 {
 	@Mod.EventHandler
 	fun preInit(event: FMLPreInitializationEvent) {
 		GameRegistry.registerTileEntity(TileEntityElevatorTop::class.java, ID + ":ElevatorTop")
+		GameRegistry.registerTileEntity(TileEntityFluxBlaster::class.java, ID + ":FluxBlaster")
 		GameRegistry.registerTileEntity(TileEntityFluxHopper::class.java, ID + ":FluxHopper")
 		GameRegistry.registerTileEntity(TileEntityPowerCabinetBase::class.java, ID + ":PowerCabinetBase")
 	}
@@ -55,6 +58,8 @@ object JAPTA2 {
 			event.registry.registerAll(
 					BlockElevatorShaft,
 					BlockElevatorTop,
+					BlockFluxBlaster.normal,
+					BlockFluxBlaster.inhaler,
 					BlockFluxHopper,
 					BlockPowerCabinetBase,
 					BlockPowerCabinet
@@ -67,6 +72,8 @@ object JAPTA2 {
 			event.registry.registerAll(
 					BlockElevatorShaft.item,
 					BlockElevatorTop.item,
+					BlockFluxBlaster.normal.item,
+					BlockFluxBlaster.inhaler.item,
 					BlockFluxHopper.item,
 					BlockPowerCabinetBase.item,
 					BlockPowerCabinet.Item,

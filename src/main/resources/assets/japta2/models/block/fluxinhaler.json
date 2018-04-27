@@ -1,0 +1,6 @@
+{
+    "parent": "japta2:block/inhaler",
+    "textures": {
+        "front": "japta2:blocks/fluxinhaler_front"
+    }
+}

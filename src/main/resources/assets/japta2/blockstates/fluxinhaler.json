@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "facing=down":  { "model": "japta2:fluxinhaler", "x": 90 },
+        "facing=up":    { "model": "japta2:fluxinhaler", "x": 270 },
+        "facing=north": { "model": "japta2:fluxinhaler" },
+        "facing=south": { "model": "japta2:fluxinhaler", "y": 180 },
+        "facing=west":  { "model": "japta2:fluxinhaler", "y": 270 },
+        "facing=east":  { "model": "japta2:fluxinhaler", "y": 90 }
+    }
+}
