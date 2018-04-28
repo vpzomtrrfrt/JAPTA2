@@ -32,7 +32,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 object JAPTA2 {
 	const val ID = "japta2"
 
-	object Tab: CreativeTabs("japta") {
+	object Tab: CreativeTabs("japta2") {
 		override fun getTabIconItem(): ItemStack {
 			return ItemStack(ItemRFMeter)
 		}
