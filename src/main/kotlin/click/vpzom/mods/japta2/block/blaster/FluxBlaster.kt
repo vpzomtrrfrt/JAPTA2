@@ -1,5 +1,6 @@
 package click.vpzom.mods.japta2.block.blaster
 
+import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.BlockElevatorShaft
 import click.vpzom.mods.japta2.block.util.EnergyHelper
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
@@ -13,6 +14,10 @@ class BlockFluxBlaster private constructor(name: String, inhale: Boolean): Block
 	companion object {
 		val normal = BlockFluxBlaster("fluxblaster", false)
 		val inhaler = BlockFluxBlaster("fluxinhaler", true)
+	}
+
+	init {
+		setCreativeTab(JAPTA2.Tab)
 	}
 
 	override fun createNewTileEntity(world: World, i: Int): TileEntity {

@@ -26,6 +26,7 @@ object BlockFluxHopper: BlockModelContainer(Material.IRON) {
 		setUnlocalizedName("fluxhopper")
 		setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.DOWN))
 		setHardness(3f)
+		setCreativeTab(JAPTA2.Tab)
 	}
 
 	val item = JAPTA2.basicBlockItem(this)

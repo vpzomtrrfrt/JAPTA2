@@ -14,7 +14,9 @@ import click.vpzom.mods.japta2.item.ItemRFMeter
 import net.minecraft.block.Block
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
+import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemBlock
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.event.RegistryEvent
@@ -29,6 +31,12 @@ import net.minecraftforge.fml.relauncher.SideOnly
 @Mod(modid = JAPTA2.ID, name = "JAPTA2", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
 object JAPTA2 {
 	const val ID = "japta2"
+
+	object Tab: CreativeTabs("japta") {
+		override fun getTabIconItem(): ItemStack {
+			return ItemStack(ItemRFMeter)
+		}
+	}
 
 	@Mod.EventHandler
 	fun preInit(event: FMLPreInitializationEvent) {

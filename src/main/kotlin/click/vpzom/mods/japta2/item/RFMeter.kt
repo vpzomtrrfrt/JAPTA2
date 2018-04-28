@@ -1,5 +1,6 @@
 package click.vpzom.mods.japta2.item
 
+import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.util.EnergyHelper
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
@@ -15,6 +16,7 @@ object ItemRFMeter: Item() {
 		setMaxStackSize(1)
 		setUnlocalizedName("rfmeter")
 		setRegistryName("rfmeter")
+		setCreativeTab(JAPTA2.Tab)
 	}
 
 	override fun onItemUse(player: EntityPlayer, world: World, pos: BlockPos, hand: EnumHand, side: EnumFacing, f1: Float, f2: Float, f3: Float): EnumActionResult {

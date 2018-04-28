@@ -21,6 +21,7 @@ object BlockElevatorShaft: Block(Material.GLASS) {
 		setRegistryName("elevatorshaft")
 		setUnlocalizedName("elevatorshaft")
 		setHardness(1f)
+		setCreativeTab(JAPTA2.Tab)
 	}
 
 	val item = JAPTA2.basicBlockItem(this)
@@ -35,6 +36,7 @@ object BlockElevatorTop: BlockModelContainer(Material.IRON) {
 		setRegistryName("elevatortop")
 		setUnlocalizedName("elevatortop")
 		setHardness(3f)
+		setCreativeTab(JAPTA2.Tab)
 	}
 	
 	val item = JAPTA2.basicBlockItem(this)

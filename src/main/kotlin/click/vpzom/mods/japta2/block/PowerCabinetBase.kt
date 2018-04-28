@@ -17,6 +17,7 @@ object BlockPowerCabinetBase: BlockModelContainer(Material.IRON) {
 		setRegistryName("powercabinetbase")
 		setUnlocalizedName("powercabinetbase")
 		setHardness(3f)
+		setCreativeTab(JAPTA2.Tab)
 	}
 
 	val item = JAPTA2.basicBlockItem(this)
