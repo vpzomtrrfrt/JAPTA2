@@ -41,6 +41,10 @@ object JAPTA2 {
 	@Mod.EventHandler
 	@SideOnly(Side.CLIENT)
 	fun clientInit(event: FMLInitializationEvent) {
+		registerItemModel(BlockElevatorShaft.item)
+		registerItemModel(BlockElevatorTop.item)
+		registerItemModel(BlockFluxBlaster.normal.item)
+		registerItemModel(BlockFluxBlaster.inhaler.item)
 		registerItemModel(BlockFluxHopper.item)
 		registerItemModel(BlockPowerCabinetBase.item)
 		for(i in 0..15) {
