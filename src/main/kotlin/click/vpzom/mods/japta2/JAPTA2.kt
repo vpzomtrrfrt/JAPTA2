@@ -3,6 +3,7 @@ package click.vpzom.mods.japta2
 import click.vpzom.mods.japta2.block.BlockElevatorShaft
 import click.vpzom.mods.japta2.block.BlockElevatorTop
 import click.vpzom.mods.japta2.block.BlockFluxHopper
+import click.vpzom.mods.japta2.block.BlockMachineBase
 import click.vpzom.mods.japta2.block.BlockPowerCabinet
 import click.vpzom.mods.japta2.block.BlockPowerCabinetBase
 import click.vpzom.mods.japta2.block.TileEntityElevatorTop
@@ -12,6 +13,7 @@ import click.vpzom.mods.japta2.block.blaster.BlockFluxBlaster
 import click.vpzom.mods.japta2.block.blaster.BlockItemBlaster
 import click.vpzom.mods.japta2.block.blaster.TileEntityFluxBlaster
 import click.vpzom.mods.japta2.block.blaster.TileEntityItemBlaster
+import click.vpzom.mods.japta2.item.ItemCoil
 import click.vpzom.mods.japta2.item.ItemRFMeter
 import net.minecraft.block.Block
 import net.minecraft.client.Minecraft
@@ -58,12 +60,15 @@ object JAPTA2 {
 		registerItemModel(BlockFluxBlaster.inhaler.item)
 		registerItemModel(BlockItemBlaster.normal.item)
 		registerItemModel(BlockFluxHopper.item)
+		registerItemModel(BlockMachineBase.item)
 		registerItemModel(BlockPowerCabinetBase.item)
 		for(i in 0..15) {
 			registerItemModel(BlockPowerCabinet.Item, i)
 		}
 
 		registerItemModel(ItemRFMeter)
+		registerItemModel(ItemCoil.reception)
+		registerItemModel(ItemCoil.transmission)
 	}
 
 	@Mod.EventBusSubscriber
@@ -79,7 +84,8 @@ object JAPTA2 {
 					BlockItemBlaster.normal,
 					BlockFluxHopper,
 					BlockPowerCabinetBase,
-					BlockPowerCabinet
+					BlockPowerCabinet,
+					BlockMachineBase
 			)
 		}
 
@@ -95,8 +101,11 @@ object JAPTA2 {
 					BlockFluxHopper.item,
 					BlockPowerCabinetBase.item,
 					BlockPowerCabinet.Item,
+					BlockMachineBase.item,
 
-					ItemRFMeter
+					ItemRFMeter,
+					ItemCoil.reception,
+					ItemCoil.transmission
 			)
 		}
 	}
