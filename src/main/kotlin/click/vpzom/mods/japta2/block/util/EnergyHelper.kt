@@ -59,4 +59,9 @@ object EnergyHelper {
 		}
 		return 0
 	}
+
+	fun longToInt(l: Long): Int {
+		if(l > Int.MAX_VALUE) return Int.MAX_VALUE
+		return l.toInt()
+	}
 }

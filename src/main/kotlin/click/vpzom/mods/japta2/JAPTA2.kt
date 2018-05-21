@@ -13,6 +13,7 @@ import click.vpzom.mods.japta2.block.blaster.BlockFluxBlaster
 import click.vpzom.mods.japta2.block.blaster.BlockItemBlaster
 import click.vpzom.mods.japta2.block.blaster.TileEntityFluxBlaster
 import click.vpzom.mods.japta2.block.blaster.TileEntityItemBlaster
+import click.vpzom.mods.japta2.item.ItemBatteryPotato
 import click.vpzom.mods.japta2.item.ItemCoil
 import click.vpzom.mods.japta2.item.ItemRFMeter
 import net.minecraft.block.Block
@@ -69,6 +70,7 @@ object JAPTA2 {
 		registerItemModel(ItemRFMeter)
 		registerItemModel(ItemCoil.reception)
 		registerItemModel(ItemCoil.transmission)
+		registerItemModel(ItemBatteryPotato)
 	}
 
 	@Mod.EventBusSubscriber
@@ -105,7 +107,8 @@ object JAPTA2 {
 
 					ItemRFMeter,
 					ItemCoil.reception,
-					ItemCoil.transmission
+					ItemCoil.transmission,
+					ItemBatteryPotato
 			)
 		}
 	}
