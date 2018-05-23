@@ -1,6 +1,8 @@
 package click.vpzom.mods.japta2.block.util
 
 import click.vpzom.mods.japta2.block.util.TileEntityJPTBase
+import click.vpzom.mods.japta2.item.util.ItemJPT
+import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -63,5 +65,24 @@ object EnergyHelper {
 	fun longToInt(l: Long): Int {
 		if(l > Int.MAX_VALUE) return Int.MAX_VALUE
 		return l.toInt()
+	}
+
+	fun chargeItem(stack: ItemStack?, max: Long): Long {
+		if(max <= 0) return 0
+		if(stack == null) return 0
+
+		val item = stack.item
+
+		if(item is ItemJPT) {
+			return item.receiveEnergy(stack, max, false)
+		}
+
+		if(stack.hasCapability(CAPABILITY_FORGE_ENERGY_STORAGE, null)) {
+			val cap = stack.getCapability(CAPABILITY_FORGE_ENERGY_STORAGE, null)
+			if(cap == null) return 0
+			return cap.receiveEnergy(longToInt(max), false).toLong()
+		}
+
+		return 0
 	}
 }

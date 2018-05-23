@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"active=false": {"model": "japta2:chargingplate_item_up"},
+		"active=true": {"model": "japta2:chargingplate_item_down"}
+	}
+}

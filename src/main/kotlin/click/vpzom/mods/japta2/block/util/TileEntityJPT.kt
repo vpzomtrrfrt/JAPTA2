@@ -1,6 +1,7 @@
 package click.vpzom.mods.japta2.block.util
 
 import click.vpzom.mods.japta2.block.util.TileEntityJPTBase
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 
@@ -56,5 +57,11 @@ abstract class TileEntityJPT: TileEntityJPTBase() {
 	protected fun pushEnergy(direction: EnumFacing) {
 		val inserted = EnergyHelper.insertEnergy(world, getPos().offset(direction), direction.opposite, stored)
 		stored -= inserted
+	}
+
+	protected fun chargeItem(stack: ItemStack): Long {
+		val change = EnergyHelper.chargeItem(stack, stored)
+		stored -= change
+		return change
 	}
 }
