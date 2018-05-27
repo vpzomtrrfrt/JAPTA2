@@ -1,0 +1,9 @@
+{
+	"parent": "block/hopper_down",
+	"textures": {
+		"particle": "japta2:blocks/eater",
+		"top": "blocks/hopper_top",
+		"side": "japta2:blocks/eater",
+		"inside": "blocks/hopper_inside"
+	}
+}

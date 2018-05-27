@@ -56,7 +56,12 @@ abstract class TileEntityJPT: TileEntityJPTBase() {
 
 	protected fun pushEnergy(direction: EnumFacing) {
 		val inserted = EnergyHelper.insertEnergy(world, getPos().offset(direction), direction.opposite, stored)
+		println("Pushed " + inserted + "/" + stored)
 		stored -= inserted
+	}
+
+	protected fun pushEnergy() {
+		for(direction in EnumFacing.VALUES) pushEnergy(direction)
 	}
 
 	protected fun chargeItem(stack: ItemStack): Long {

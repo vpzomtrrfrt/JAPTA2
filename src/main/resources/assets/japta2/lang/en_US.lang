@@ -5,6 +5,7 @@ item.rfmeter.name=Energy Meter
 itemGroup.japta2=JAPTA2
 tile.chargingplate_item.name=Item Charging Plate
 tile.chargingplate_player.name=Player Charging Plate
+tile.eater.name=Eater
 tile.elevatorshaft.name=Elevator Shaft
 tile.elevatortop.name=Elevator Top
 tile.fluxblaster.name=Flux Blaster

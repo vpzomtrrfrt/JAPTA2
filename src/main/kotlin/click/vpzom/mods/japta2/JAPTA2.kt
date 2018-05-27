@@ -1,6 +1,7 @@
 package click.vpzom.mods.japta2
 
 import click.vpzom.mods.japta2.block.BlockChargingPlate
+import click.vpzom.mods.japta2.block.BlockEater
 import click.vpzom.mods.japta2.block.BlockElevatorShaft
 import click.vpzom.mods.japta2.block.BlockElevatorTop
 import click.vpzom.mods.japta2.block.BlockFluxHopper
@@ -8,6 +9,7 @@ import click.vpzom.mods.japta2.block.BlockMachineBase
 import click.vpzom.mods.japta2.block.BlockPowerCabinet
 import click.vpzom.mods.japta2.block.BlockPowerCabinetBase
 import click.vpzom.mods.japta2.block.TileEntityChargingPlate
+import click.vpzom.mods.japta2.block.TileEntityEater
 import click.vpzom.mods.japta2.block.TileEntityElevatorTop
 import click.vpzom.mods.japta2.block.TileEntityFluxHopper
 import click.vpzom.mods.japta2.block.TileEntityPowerCabinetBase
@@ -48,6 +50,7 @@ object JAPTA2 {
 	@Mod.EventHandler
 	fun preInit(event: FMLPreInitializationEvent) {
 		GameRegistry.registerTileEntity(TileEntityChargingPlate::class.java, ID + ":ChargingPlate")
+		GameRegistry.registerTileEntity(TileEntityEater::class.java, ID + ":Eater")
 		GameRegistry.registerTileEntity(TileEntityElevatorTop::class.java, ID + ":ElevatorTop")
 		GameRegistry.registerTileEntity(TileEntityFluxBlaster::class.java, ID + ":FluxBlaster")
 		GameRegistry.registerTileEntity(TileEntityItemBlaster::class.java, ID + ":ItemBlaster")
@@ -58,6 +61,7 @@ object JAPTA2 {
 	@Mod.EventHandler
 	@SideOnly(Side.CLIENT)
 	fun clientInit(event: FMLInitializationEvent) {
+		registerItemModel(BlockEater.item)
 		registerItemModel(BlockElevatorShaft.item)
 		registerItemModel(BlockElevatorTop.item)
 		registerItemModel(BlockFluxBlaster.normal.item)
@@ -84,6 +88,7 @@ object JAPTA2 {
 		@SubscribeEvent
 		fun registerBlocks(event: RegistryEvent.Register<Block>) {
 			event.registry.registerAll(
+					BlockEater,
 					BlockElevatorShaft,
 					BlockElevatorTop,
 					BlockFluxBlaster.normal,
@@ -102,6 +107,7 @@ object JAPTA2 {
 		@SubscribeEvent
 		fun registerItems(event: RegistryEvent.Register<Item>) {
 			event.registry.registerAll(
+					BlockEater.item,
 					BlockElevatorShaft.item,
 					BlockElevatorTop.item,
 					BlockFluxBlaster.normal.item,
