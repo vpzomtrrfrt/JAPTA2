@@ -1,8 +1,8 @@
 {
-	"parent": "block/piston",
+	"parent": "block/cube_bottom_top",
 	"textures": {
 		"bottom": "japta2:blocks/machinebase",
 		"side": "japta2:blocks/moverside",
-		"platform": "japta2:blocks/moverfront"
+		"top": "japta2:blocks/moverfront"
 	}
 }

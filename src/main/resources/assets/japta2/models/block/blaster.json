@@ -1,7 +1,7 @@
 {
-    "parent": "block/orientable",
+    "parent": "block/cube_bottom_top",
     "textures": {
-        "top": "blocks/furnace_top",
-        "side": "blocks/furnace_side"
+	    "bottom": "japta2:blocks/machinebase",
+	    "top": "#front"
     }
 }
