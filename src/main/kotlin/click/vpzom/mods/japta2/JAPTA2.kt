@@ -6,12 +6,14 @@ import click.vpzom.mods.japta2.block.BlockElevatorShaft
 import click.vpzom.mods.japta2.block.BlockElevatorTop
 import click.vpzom.mods.japta2.block.BlockFluxHopper
 import click.vpzom.mods.japta2.block.BlockMachineBase
+import click.vpzom.mods.japta2.block.BlockMover
 import click.vpzom.mods.japta2.block.BlockPowerCabinet
 import click.vpzom.mods.japta2.block.BlockPowerCabinetBase
 import click.vpzom.mods.japta2.block.TileEntityChargingPlate
 import click.vpzom.mods.japta2.block.TileEntityEater
 import click.vpzom.mods.japta2.block.TileEntityElevatorTop
 import click.vpzom.mods.japta2.block.TileEntityFluxHopper
+import click.vpzom.mods.japta2.block.TileEntityMover
 import click.vpzom.mods.japta2.block.TileEntityPowerCabinetBase
 import click.vpzom.mods.japta2.block.blaster.BlockFluxBlaster
 import click.vpzom.mods.japta2.block.blaster.BlockItemBlaster
@@ -55,6 +57,7 @@ object JAPTA2 {
 		GameRegistry.registerTileEntity(TileEntityFluxBlaster::class.java, ID + ":FluxBlaster")
 		GameRegistry.registerTileEntity(TileEntityItemBlaster::class.java, ID + ":ItemBlaster")
 		GameRegistry.registerTileEntity(TileEntityFluxHopper::class.java, ID + ":FluxHopper")
+		GameRegistry.registerTileEntity(TileEntityMover::class.java, ID + ":Mover")
 		GameRegistry.registerTileEntity(TileEntityPowerCabinetBase::class.java, ID + ":PowerCabinetBase")
 	}
 
@@ -69,6 +72,7 @@ object JAPTA2 {
 		registerItemModel(BlockItemBlaster.normal.item)
 		registerItemModel(BlockFluxHopper.item)
 		registerItemModel(BlockMachineBase.item)
+		registerItemModel(BlockMover.item)
 		registerItemModel(BlockPowerCabinetBase.item)
 		registerItemModel(BlockChargingPlate.wooden.item)
 		registerItemModel(BlockChargingPlate.normal.item)
@@ -95,6 +99,7 @@ object JAPTA2 {
 					BlockFluxBlaster.inhaler,
 					BlockItemBlaster.normal,
 					BlockFluxHopper,
+					BlockMover,
 					BlockPowerCabinetBase,
 					BlockPowerCabinet,
 					BlockMachineBase,
@@ -114,6 +119,7 @@ object JAPTA2 {
 					BlockFluxBlaster.inhaler.item,
 					BlockItemBlaster.normal.item,
 					BlockFluxHopper.item,
+					BlockMover.item,
 					BlockPowerCabinetBase.item,
 					BlockPowerCabinet.Item,
 					BlockMachineBase.item,
