@@ -5,6 +5,7 @@ import click.vpzom.mods.japta2.block.util.BlockModelContainer
 import click.vpzom.mods.japta2.block.util.EnergyHelper
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
 import net.minecraft.block.material.Material
+import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.SoundEvents
 import net.minecraft.inventory.IInventory
@@ -12,9 +13,11 @@ import net.minecraft.item.ItemFood
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.EntitySelectors
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
 import net.minecraft.util.SoundCategory
+import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
@@ -76,6 +79,37 @@ class TileEntityEater: TileEntityJPT(), IInventory, ITickable {
 		return EaterState((saturation * TIME_MULT).toInt(), healAmount + saturation, 0)
 	}
 
+	private fun suckItem() {
+		val targetPos = pos.up()
+		val te = world.getTileEntity(targetPos)
+		if(te != null) {
+			val side = EnumFacing.DOWN
+			if(te.hasCapability(CAPABILITY_ITEM_HANDLER, side)) {
+				val cap = te.getCapability(CAPABILITY_ITEM_HANDLER, side)
+				if(cap != null) {
+					for(i in 0 until cap.getSlots()) {
+						val result = cap.extractItem(i, 1, false)
+						if(result != null && !result.isEmpty()) {
+							stack = result
+							return
+						}
+					}
+				}
+			}
+		}
+
+		val ents = world.getEntitiesWithinAABB(EntityItem::class.java, AxisAlignedBB(pos.x.toDouble(), pos.y + 0.5, pos.z.toDouble(), pos.x + 1.0, pos.y + 2.0, pos.z + 1.0), EntitySelectors.IS_ALIVE)
+		for(ent in ents) {
+			val itemStack = ent.item
+			if(itemStack != null && !itemStack.isEmpty()) {
+				val split = itemStack.splitStack(1)
+				if(itemStack.isEmpty()) ent.setDead()
+				stack = split
+				return
+			}
+		}
+	}
+
 	override fun update() {
 		if(world.isRemote) return
 
@@ -102,6 +136,10 @@ class TileEntityEater: TileEntityJPT(), IInventory, ITickable {
 
 		if(stored > 0) {
 			pushEnergy()
+		}
+
+		if(stack.isEmpty()) {
+			suckItem()
 		}
 	}
 
