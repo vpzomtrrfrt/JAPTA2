@@ -119,7 +119,6 @@ class TileEntityEater: TileEntityJPT(), IInventory, ITickable {
 			val toAdd = (POWER_MULT * state.multiplier).toInt()
 			if(toAdd + stored <= getMaxStoredEnergy()) {
 				stored += toAdd
-				println("Adding " + toAdd)
 				state.elapsedTime++
 				if(state.elapsedTime % 2 == 0) {
 					world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.BLOCKS, 0.5f + Math.random().toFloat(), ((Math.random() - Math.random()).toFloat() * 0.2f + 1))

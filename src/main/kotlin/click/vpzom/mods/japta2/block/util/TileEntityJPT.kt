@@ -12,9 +12,7 @@ abstract class TileEntityJPT: TileEntityJPTBase() {
 
 	protected var stored = 0L
 
-	final override fun getStoredEnergy(side: EnumFacing?): Long {
-		return stored
-	}
+	final override fun getStoredEnergy(side: EnumFacing?): Long = stored
 
 	final override fun getMaxStoredEnergy(side: EnumFacing?): Long {
 		return getMaxStoredEnergy()
@@ -56,7 +54,6 @@ abstract class TileEntityJPT: TileEntityJPTBase() {
 
 	protected fun pushEnergy(direction: EnumFacing) {
 		val inserted = EnergyHelper.insertEnergy(world, getPos().offset(direction), direction.opposite, stored)
-		println("Pushed " + inserted + "/" + stored)
 		stored -= inserted
 	}
 

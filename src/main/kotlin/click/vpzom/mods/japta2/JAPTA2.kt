@@ -146,7 +146,6 @@ object JAPTA2 {
 
 	private fun registerItemModel(item: Item, meta: Int) {
 		val name = item.getRegistryName().toString()
-		println("Registering " + name)
 		registerItemModel(item, meta, locationForName(name))
 	}
 
