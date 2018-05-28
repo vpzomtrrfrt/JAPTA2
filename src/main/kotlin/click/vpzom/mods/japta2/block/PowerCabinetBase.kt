@@ -128,9 +128,10 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 			var value = state.getValue(BlockPowerCabinet.PROP_VALUE)
 			if(value >= 15) continue
 			while(value < 15) {
-				if(inserted + BlockPowerCabinet.LINE_VALUE >= maxInput) {
+				if(inserted + BlockPowerCabinet.LINE_VALUE > maxInput) {
 					if(!simulate) {
-						internalStorage = inserted + BlockPowerCabinet.LINE_VALUE - maxInput
+						val newInternal = maxInput - inserted
+						internalStorage = newInternal
 					}
 					inserted = maxInput
 					break
