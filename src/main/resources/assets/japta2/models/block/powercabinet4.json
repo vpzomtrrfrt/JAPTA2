@@ -1,7 +1,0 @@
-{
-	"parent": "block/cube_column",
-	"textures": {
-		"end": "japta2:blocks/machinebase",
-		"side": "japta2:blocks/powercabinet4"
-	}
-}

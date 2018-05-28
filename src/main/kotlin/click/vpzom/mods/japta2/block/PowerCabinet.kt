@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.IItemPropertyGetter
 import net.minecraft.item.ItemBlock
 import net.minecraft.item.ItemStack
+import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
@@ -69,4 +70,8 @@ object BlockPowerCabinet: Block(Material.IRON) {
 		list.add(ItemStack(this, 1, 0))
 		list.add(ItemStack(this, 1, 15))
 	}
+
+	override fun isOpaqueCube(state: IBlockState): Boolean = false
+
+	override fun getBlockLayer(): BlockRenderLayer = BlockRenderLayer.CUTOUT
 }

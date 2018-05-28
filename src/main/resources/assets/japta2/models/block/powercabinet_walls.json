@@ -1,0 +1,71 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"side": "japta2:blocks/powercabinet_wall",
+		"end": "japta2:blocks/powercabinet_wall",
+		"top": "japta2:blocks/powercabinet_top",
+		"particle": "japta2:blocks/powercabinet_wall"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [15, 16, 1],
+			"faces": {
+				"up": {"texture": "#top"},
+				"down": {"texture": "#end"},
+				"north": {"texture": "#side"},
+				"south": {"texture": "#side"},
+				"east": {"texture": "#side"},
+				"west": {"texture": "#side"}
+			}
+		},
+		{
+			"from": [15, 0, 0],
+			"to": [16, 16, 15],
+			"faces": {
+				"up": {"texture": "#top"},
+				"down": {"texture": "#end"},
+				"north": {"texture": "#side"},
+				"south": {"texture": "#side"},
+				"east": {"texture": "#side"},
+				"west": {"texture": "#side"}
+			}
+		},
+		{
+			"from": [1, 0, 15],
+			"to": [16, 16, 16],
+			"faces": {
+				"up": {"texture": "#top"},
+				"down": {"texture": "#end"},
+				"north": {"texture": "#side"},
+				"south": {"texture": "#side"},
+				"east": {"texture": "#side"},
+				"west": {"texture": "#side"}
+			}
+		},
+		{
+			"from": [0, 0, 1],
+			"to": [1, 16, 16],
+			"faces": {
+				"up": {"texture": "#top"},
+				"down": {"texture": "#end"},
+				"north": {"texture": "#side"},
+				"south": {"texture": "#side"},
+				"east": {"texture": "#side"},
+				"west": {"texture": "#side"}
+			}
+		},
+		{
+			"from": [2, 15, 2],
+			"to": [14, 16, 14],
+			"faces": {
+				"up": {"texture": "#top"},
+				"down": {"texture": "#top"},
+				"north": {"texture": "#top"},
+				"south": {"texture": "#top"},
+				"east": {"texture": "#top"},
+				"west": {"texture": "#top"}
+			}
+		}
+	]
+}

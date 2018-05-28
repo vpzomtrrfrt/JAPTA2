@@ -77,7 +77,7 @@ object JAPTA2 {
 		registerItemModel(BlockChargingPlate.wooden.item)
 		registerItemModel(BlockChargingPlate.normal.item)
 		for(i in 0..15) {
-			registerItemModel(BlockPowerCabinet.Item, i)
+			registerItemModel(BlockPowerCabinet.Item, i, ModelResourceLocation(ID + ":powercabinet", "value=" + i))
 		}
 
 		registerItemModel(ItemRFMeter)

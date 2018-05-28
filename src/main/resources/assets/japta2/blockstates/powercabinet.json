@@ -1,20 +1,26 @@
 {
+	"forge_marker": 1,
+	"defaults": {
+		"model": "japta2:powercabinet_walls"
+	},
 	"variants": {
-		"value=0": {"model": "japta2:powerCabinet0"},
-		"value=1": {"model": "japta2:powerCabinet1"},
-		"value=2": {"model": "japta2:powerCabinet2"},
-		"value=3": {"model": "japta2:powerCabinet3"},
-		"value=4": {"model": "japta2:powerCabinet4"},
-		"value=5": {"model": "japta2:powerCabinet5"},
-		"value=6": {"model": "japta2:powerCabinet6"},
-		"value=7": {"model": "japta2:powerCabinet7"},
-		"value=8": {"model": "japta2:powerCabinet8"},
-		"value=9": {"model": "japta2:powerCabinet9"},
-		"value=10": {"model": "japta2:powerCabinet10"},
-		"value=11": {"model": "japta2:powerCabinet11"},
-		"value=12": {"model": "japta2:powerCabinet12"},
-		"value=13": {"model": "japta2:powerCabinet13"},
-		"value=14": {"model": "japta2:powerCabinet14"},
-		"value=15": {"model": "japta2:powerCabinet15"}
+		"value": {
+			"0": {},
+			"1": {"submodel": {"fill": {"model": "japta2:powercabinet_fill1"}}},
+			"2": {"submodel": {"fill": {"model": "japta2:powercabinet_fill2"}}},
+			"3": {"submodel": {"fill": {"model": "japta2:powercabinet_fill3"}}},
+			"4": {"submodel": {"fill": {"model": "japta2:powercabinet_fill4"}}},
+			"5": {"submodel": {"fill": {"model": "japta2:powercabinet_fill5"}}},
+			"6": {"submodel": {"fill": {"model": "japta2:powercabinet_fill6"}}},
+			"7": {"submodel": {"fill": {"model": "japta2:powercabinet_fill7"}}},
+			"8": {"submodel": {"fill": {"model": "japta2:powercabinet_fill8"}}},
+			"9": {"submodel": {"fill": {"model": "japta2:powercabinet_fill9"}}},
+			"10": {"submodel": {"fill": {"model": "japta2:powercabinet_fill10"}}},
+			"11": {"submodel": {"fill": {"model": "japta2:powercabinet_fill11"}}},
+			"12": {"submodel": {"fill": {"model": "japta2:powercabinet_fill12"}}},
+			"13": {"submodel": {"fill": {"model": "japta2:powercabinet_fill13"}}},
+			"14": {"submodel": {"fill": {"model": "japta2:powercabinet_fill14"}}},
+			"15": {"submodel": {"fill": {"model": "japta2:powercabinet_fill15"}}}
+		}
 	}
 }

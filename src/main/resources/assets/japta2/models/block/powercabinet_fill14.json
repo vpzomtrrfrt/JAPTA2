@@ -1,0 +1,17 @@
+{
+	"parent": "japta2:block/powercabinet_fill_base",
+	"elements": [
+		{
+			"from": [2, 0, 2],
+			"to": [14, 14, 14],
+			"faces": {
+				"down": {"texture": "#fill"},
+				"up": {"texture": "#fill"},
+				"north": {"texture": "#fill"},
+				"south": {"texture": "#fill"},
+				"east": {"texture": "#fill"},
+				"west": {"texture": "#fill"}
+			}
+		}
+	]
+}
