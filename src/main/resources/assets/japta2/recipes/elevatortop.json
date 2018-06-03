@@ -1,0 +1,34 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"gcg",
+		"rer",
+		"isi"
+	],
+	"key": {
+		"i": {
+			"type": "forge:ore_dict",
+			"ore": "ingotIron"
+		},
+		"g": {
+			"type": "forge:ore_dict",
+			"ore": "nuggetGold"
+		},
+		"e": {
+			"item": "minecraft:ender_pearl"
+		},
+		"r": {
+			"type": "forge:ore_dict",
+			"ore": "dustRedstone"
+		},
+		"c": {
+			"item": "japta2:coilreception"
+		},
+		"s": {
+			"item": "japta2:elevatorshaft"
+		}
+	},
+	"result": {
+		"item": "japta2:elevatortop"
+	}
+}

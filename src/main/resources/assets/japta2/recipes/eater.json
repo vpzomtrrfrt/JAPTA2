@@ -1,0 +1,26 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		" h ",
+		" c ",
+		"ibi"
+	],
+	"key": {
+		"i": {
+			"type": "forge:ore_dict",
+			"ore": "ingotIron"
+		},
+		"c": {
+			"item": "japta2:coiltransmission"
+		},
+		"h": {
+			"item": "minecraft:hopper"
+		},
+		"b": {
+			"item": "japta2:machinebase"
+		}
+	},
+	"result": {
+		"item": "japta2:eater"
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"oto",
+		"rcr"
+	],
+	"key": {
+		"o": {
+			"type": "forge:ore_dict",
+			"ore": "obsidian"
+		},
+		"t": {
+			"item": "japta2:coiltransmission"
+		},
+		"r": {
+			"type": "forge:ore_dict",
+			"ore": "dustRedstone"
+		},
+		"c": {
+			"item": "japta2:coilreception"
+		}
+	},
+	"result": {
+		"item": "japta2:chargingplate_player"
+	}
+}

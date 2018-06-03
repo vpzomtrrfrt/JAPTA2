@@ -1,0 +1,31 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"ssc",
+		"rmd",
+		"ssc"
+	],
+	"key": {
+		"s": {
+			"type": "forge:ore_dict",
+			"ore": "cobblestone"
+		},
+		"r": {
+			"type": "forge:ore_dict",
+			"ore": "dustRedstone"
+		},
+		"d": {
+			"item": "minecraft:dispenser"
+		},
+		"c": {
+			"type": "forge:ore_dict",
+			"ore": "chestWood"
+		},
+		"m": {
+			"item": "japta2:machinebase"
+		}
+	},
+	"result": {
+		"item": "japta2:itemblaster"
+	}
+}

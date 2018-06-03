@@ -1,0 +1,29 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"lsl",
+		"cmt"
+	],
+	"key": {
+		"l": {
+			"type": "forge:ore_dict",
+			"ore": "gemLapis"
+		},
+		"s": {
+			"item": "japta2:powercabinet",
+			"data": 0
+		},
+		"m": {
+			"item": "japta2:machinebase"
+		},
+		"c": {
+			"item": "japta2:coilreception"
+		},
+		"t": {
+			"item": "japta2:coiltransmission"
+		}
+	},
+	"result": {
+		"item": "japta2:powercabinetbase"
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"wtw",
+		"rcr"
+	],
+	"key": {
+		"w": {
+			"type": "forge:ore_dict",
+			"ore": "plankWood"
+		},
+		"t": {
+			"item": "japta2:coiltransmission"
+		},
+		"r": {
+			"type": "forge:ore_dict",
+			"ore": "dustRedstone"
+		},
+		"c": {
+			"item": "japta2:coilreception"
+		}
+	},
+	"result": {
+		"item": "japta2:chargingplate_item"
+	}
+}

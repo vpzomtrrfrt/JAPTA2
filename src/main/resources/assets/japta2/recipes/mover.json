@@ -1,0 +1,27 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"iii",
+		"cmp",
+		"iii"
+	],
+	"key": {
+		"i": {
+			"type": "forge:ore_dict",
+			"ore": "ingotIron"
+		},
+		"p": {
+			"item": "minecraft:piston"
+		},
+		"m": {
+			"item": "japta2:machinebase"
+		},
+		"c": {
+			"item": "japta2:coilreception"
+		}
+	},
+	"result": {
+		"item": "japta2:mover",
+		"count": 4
+	}
+}

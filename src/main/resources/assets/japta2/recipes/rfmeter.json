@@ -1,0 +1,16 @@
+{
+	"type": "forge:ore_shapeless",
+	"ingredients": [
+		{
+			"type": "forge:ore_dict",
+			"ore": "nuggetGold"
+		},
+		{
+			"type": "forge:ore_dict",
+			"ore": "dustRedstone"
+		}
+	],
+	"result": {
+		"item": "japta2:rfmeter"
+	}
+}

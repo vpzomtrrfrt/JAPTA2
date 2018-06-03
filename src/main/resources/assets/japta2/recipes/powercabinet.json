@@ -1,0 +1,20 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"iri"
+	],
+	"key": {
+		"i": {
+			"type": "forge:ore_dict",
+			"ore": "ingotIron"
+		},
+		"r": {
+			"type": "forge:ore_dict",
+			"ore": "blockRedstone"
+		}
+	},
+	"result": {
+		"item": "japta2:powercabinet",
+		"data": 0
+	}
+}

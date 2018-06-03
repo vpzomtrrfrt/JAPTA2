@@ -1,0 +1,32 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"ssc",
+		"rmd",
+		"sst"
+	],
+	"key": {
+		"s": {
+			"type": "forge:ore_dict",
+			"ore": "cobblestone"
+		},
+		"r": {
+			"item": "minecraft:redstone_torch"
+		},
+		"d": {
+			"item": "minecraft:dispenser"
+		},
+		"c": {
+			"item": "japta2:coilreception"
+		},
+		"t": {
+			"item": "japta2:coiltransmission"
+		},
+		"m": {
+			"item": "japta2:machinebase"
+		}
+	},
+	"result": {
+		"item": "japta2:fluxinhaler"
+	}
+}

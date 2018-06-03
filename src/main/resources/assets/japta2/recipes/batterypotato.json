@@ -1,0 +1,19 @@
+{
+	"type": "forge:ore_shapeless",
+	"ingredients": [
+		{
+			"type": "forge:ore_dict",
+			"ore": "nuggetGold"
+		},
+		{
+			"type": "forge:ore_dict",
+			"ore": "cropPotato"
+		},
+		{
+			"item": "japta2:coilreception"
+		}
+	],
+	"result": {
+		"item": "japta2:batterypotato"
+	}
+}
