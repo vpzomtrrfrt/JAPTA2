@@ -3,6 +3,7 @@ package click.vpzom.mods.japta2.block.util
 import click.vpzom.mods.japta2.block.util.TileEntityJPTBase
 import click.vpzom.mods.japta2.item.util.ItemJPT
 import net.darkhax.tesla.api.ITeslaConsumer
+import net.darkhax.tesla.api.ITeslaHolder
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
@@ -17,6 +18,8 @@ object EnergyHelper {
 
 	@CapabilityInject(ITeslaConsumer::class)
 	lateinit var CAPABILITY_TESLA_CONSUMER: Capability<ITeslaConsumer>
+	@CapabilityInject(ITeslaHolder::class)
+	lateinit var CAPABILITY_TESLA_HOLDER: Capability<ITeslaHolder>
 
 	fun getStoredEnergy(world: World, pos: BlockPos, side: EnumFacing?): Pair<Long, Long>? {
 		val te = world.getTileEntity(pos)
@@ -24,6 +27,12 @@ object EnergyHelper {
 			return Pair(te.getStoredEnergy(side), te.getMaxStoredEnergy(side))
 		}
 		if(te != null) {
+			if(te.hasCapability(CAPABILITY_TESLA_HOLDER, side)) {
+				val cap = te.getCapability(CAPABILITY_TESLA_HOLDER, side)
+				if(cap != null) {
+					return Pair(cap.getStoredPower(), cap.getCapacity())
+				}
+			}
 			if(te.hasCapability(CAPABILITY_FORGE_ENERGY_STORAGE, side)) {
 				val cap = te.getCapability(CAPABILITY_FORGE_ENERGY_STORAGE, side)
 				if(cap != null) {
