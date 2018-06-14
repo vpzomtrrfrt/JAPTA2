@@ -18,13 +18,13 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 repositories {
-	maven {
-		url = "https://maven.shadowfacts.net"
-	}
+	maven { url = "https://maven.shadowfacts.net" }
+	maven { url = "https://maven.mcmoddev.com" }
 }
 
 dependencies {
 	compile group: "net.shadowfacts", name: "Forgelin", version: "1.6.0"
+	compile group: "net.darkhax.tesla", name: "Tesla-1.12.2", version: "1.0.63"
 }
 
 version = "0.1.0"

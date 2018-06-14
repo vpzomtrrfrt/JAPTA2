@@ -1,5 +1,6 @@
 package click.vpzom.mods.japta2.block.util
 
+import net.darkhax.tesla.api.ITeslaConsumer
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.common.capabilities.Capability
@@ -16,6 +17,12 @@ abstract class TileEntityJPTBase: TileEntity() {
 		}
 		override fun receiveEnergy(max: Int, simulate: Boolean): Int {
 			return attemptInputEnergy(side, max.toLong(), simulate).toInt()
+		}
+	}
+
+	inner class TeslaAdapter(val side: EnumFacing?): ITeslaConsumer {
+		override fun givePower(max: Long, simulate: Boolean): Long {
+			return attemptInputEnergy(side, max, simulate)
 		}
 	}
 
