@@ -27,7 +27,7 @@ dependencies {
 	compile group: "net.shadowfacts", name: "Forgelin", version: "1.6.0"
 }
 
-version = "0.1.0"
+version = "0.0.1"
 group = "click.vpzom.mods.japta2"
 archivesBaseName = "JAPTA2-mc1.12.2"
 
