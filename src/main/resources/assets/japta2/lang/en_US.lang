@@ -11,6 +11,7 @@ tile.elevatortop.name=Elevator Top
 tile.fluxblaster.name=Flux Blaster
 tile.fluxhopper.name=Flux Hopper
 tile.fluxinhaler.name=Flux Inhaler
+tile.furnaceheater.name=Furnace Heater
 tile.itemblaster.name=Item Blaster
 tile.machinebase.name=Machine Base
 tile.mover.name=Mover
