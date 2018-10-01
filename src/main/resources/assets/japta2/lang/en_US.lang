@@ -13,6 +13,7 @@ tile.fluxhopper.name=Flux Hopper
 tile.fluxinhaler.name=Flux Inhaler
 tile.itemblaster.name=Item Blaster
 tile.machinebase.name=Machine Base
+tile.mover.name=Mover
 tile.powercabinetbase.name=Power Cabinet Base
 tile.powercabinet_0.name=Power Cabinet Shaft (0%)
 tile.powercabinet_1.name=Power Cabinet Shaft (6%)
