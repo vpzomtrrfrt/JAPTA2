@@ -13,26 +13,26 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.ITickable
 import net.minecraft.world.World
 
-object BlockFurnaceHeater: BlockModelContainer(Material.IRON) {
+object BlockFurnaceSiphon: BlockModelContainer(Material.IRON) {
 	init {
-		setRegistryName("furnaceheater")
-		setUnlocalizedName("furnaceheater")
-		setHardness(3f)
+		setRegistryName("furnacesiphon")
+		setUnlocalizedName("furnacesiphon")
+		setHardness(2f)
 		setCreativeTab(JAPTA2.Tab)
 	}
 
 	val item = JAPTA2.basicBlockItem(this)
 
 	override fun createNewTileEntity(world: World, i: Int): TileEntity {
-		return TileEntityFurnaceHeater()
+		return TileEntityFurnaceSiphon()
 	}
 }
 
-class TileEntityFurnaceHeater: TileEntityJPT(), ITickable {
-	val TICK_COST = 30
+class TileEntityFurnaceSiphon: TileEntityJPT(), ITickable {
+	val TICK_VALUE = 2
 
 	override fun getMaxStoredEnergy(): Long {
-		return (TICK_COST * 200).toLong()
+		return (TICK_VALUE * 50).toLong()
 	}
 
 	override fun update() {
@@ -40,28 +40,20 @@ class TileEntityFurnaceHeater: TileEntityJPT(), ITickable {
 		if(world.isRemote) return
 
 		for(direction in EnumFacing.VALUES) {
-			if(stored < TICK_COST) return
+			if(stored >= getMaxStoredEnergy()) break
 
 			val targetPos = pos.offset(direction)
 			val target = world.getTileEntity(targetPos)
 
 			if(target is TileEntityFurnace) {
 				if(target.isBurning()) {
-					if(FurnaceHelper.canSmelt(target) && target.getField(0) < 2) {
-						target.setField(0, target.getField(0) + 1)
-						stored -= TICK_COST
-					}
-				}
-				else {
-					if(FurnaceHelper.canSmelt(target)) {
-						if(stored >= TICK_COST * target.getCookTime(target.getStackInSlot(0))) {
-							target.setField(0, 2)
-							stored -= TICK_COST
-							BlockFurnace.setState(true, getWorld(), targetPos)
-						}
-					}
+					stored += TICK_VALUE
 				}
 			}
+		}
+
+		if(stored > 0) {
+			pushEnergy()
 		}
 	}
 }

@@ -6,6 +6,7 @@ import click.vpzom.mods.japta2.block.BlockElevatorShaft
 import click.vpzom.mods.japta2.block.BlockElevatorTop
 import click.vpzom.mods.japta2.block.BlockFluxHopper
 import click.vpzom.mods.japta2.block.BlockFurnaceHeater
+import click.vpzom.mods.japta2.block.BlockFurnaceSiphon
 import click.vpzom.mods.japta2.block.BlockMachineBase
 import click.vpzom.mods.japta2.block.BlockMover
 import click.vpzom.mods.japta2.block.BlockPowerCabinet
@@ -15,6 +16,7 @@ import click.vpzom.mods.japta2.block.TileEntityEater
 import click.vpzom.mods.japta2.block.TileEntityElevatorTop
 import click.vpzom.mods.japta2.block.TileEntityFluxHopper
 import click.vpzom.mods.japta2.block.TileEntityFurnaceHeater
+import click.vpzom.mods.japta2.block.TileEntityFurnaceSiphon
 import click.vpzom.mods.japta2.block.TileEntityMover
 import click.vpzom.mods.japta2.block.TileEntityPowerCabinetBase
 import click.vpzom.mods.japta2.block.blaster.BlockFluxBlaster
@@ -60,6 +62,7 @@ object JAPTA2 {
 		GameRegistry.registerTileEntity(TileEntityItemBlaster::class.java, ID + ":ItemBlaster")
 		GameRegistry.registerTileEntity(TileEntityFluxHopper::class.java, ID + ":FluxHopper")
 		GameRegistry.registerTileEntity(TileEntityFurnaceHeater::class.java, ID + ":FurnaceHeater")
+		GameRegistry.registerTileEntity(TileEntityFurnaceSiphon::class.java, ID + ":FurnaceSiphon")
 		GameRegistry.registerTileEntity(TileEntityMover::class.java, ID + ":Mover")
 		GameRegistry.registerTileEntity(TileEntityPowerCabinetBase::class.java, ID + ":PowerCabinetBase")
 	}
@@ -75,6 +78,7 @@ object JAPTA2 {
 		registerItemModel(BlockItemBlaster.normal.item)
 		registerItemModel(BlockFluxHopper.item)
 		registerItemModel(BlockFurnaceHeater.item)
+		registerItemModel(BlockFurnaceSiphon.item)
 		registerItemModel(BlockMachineBase.item)
 		registerItemModel(BlockMover.item)
 		registerItemModel(BlockPowerCabinetBase.item)
@@ -104,6 +108,7 @@ object JAPTA2 {
 					BlockItemBlaster.normal,
 					BlockFluxHopper,
 					BlockFurnaceHeater,
+					BlockFurnaceSiphon,
 					BlockMover,
 					BlockPowerCabinetBase,
 					BlockPowerCabinet,
@@ -125,6 +130,7 @@ object JAPTA2 {
 					BlockItemBlaster.normal.item,
 					BlockFluxHopper.item,
 					BlockFurnaceHeater.item,
+					BlockFurnaceSiphon.item,
 					BlockMover.item,
 					BlockPowerCabinetBase.item,
 					BlockPowerCabinet.Item,
