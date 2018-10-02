@@ -1,0 +1,30 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern": [
+		"bcb",
+		"rmr",
+		"bib"
+	],
+	"key": {
+		"b": {
+			"item": "minecraft:iron_bars"
+		},
+		"c": {
+			"item": "japta2:coiltransmission"
+		},
+		"r": {
+			"type": "forge:ore_dict",
+			"ore": "dustRedstone"
+		},
+		"m": {
+			"item": "japta2:machinebase"
+		},
+		"i": {
+			"type": "forge:ore_dict",
+			"ore": "ingotIron"
+		}
+	},
+	"result": {
+		"item": "japta2:furnacesiphon"
+	}
+}
