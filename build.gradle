@@ -21,10 +21,14 @@ repositories {
 	maven {
 		url = "https://maven.shadowfacts.net"
 	}
+	maven {
+		url = "https://maven.blamejared.com"
+	}
 }
 
 dependencies {
 	compile group: "net.shadowfacts", name: "Forgelin", version: "1.6.0"
+	compile group: "vazkii.patchouli", name: "Patchouli", version: "1.0-11.52"
 }
 
 version = "0.0.1"

@@ -1,0 +1,20 @@
+{
+	"name": "Crafting Components",
+	"category": "misc",
+	"icon": "japta2:coilreception",
+	"pages": [
+		{
+			"type": "text",
+			"text": "There are a few items in JAPTA2 that are used as crafting components.  Besides the placeable nature of the $(item)Machine Base$(), they have no other use."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:coilreception",
+			"recipe2": "japta2:coiltransmission"
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:machinebase"
+		}
+	]
+}

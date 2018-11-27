@@ -1,0 +1,15 @@
+{
+	"name": "Furnace Siphon",
+	"category": "generation",
+	"icon": "japta2:furnacesiphon",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Furnace Siphon is a block that generates a small amount of energy from running furnaces placed on any side.  Generated energy is pushed to all sides."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:furnacesiphon"
+		}
+	]
+}

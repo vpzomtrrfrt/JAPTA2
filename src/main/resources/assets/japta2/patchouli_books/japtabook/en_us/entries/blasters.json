@@ -1,0 +1,16 @@
+{
+	"name": "Blasters",
+	"category": "transport",
+	"icon": "japta2:fluxblaster",
+	"pages": [
+		{
+			"type": "text",
+			"text": "There are currently two types of Blaster: The $(item)Flux Blaster$(), which transports energy, and the $(item)Item Blaster$(), which transports items.  Blasters can be placed in any direction, and are able to send their respective substance to the 8 blocks in front of them."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:blaster_flux",
+			"recipe2": "japta2:blaster_item"
+		}
+	]
+}

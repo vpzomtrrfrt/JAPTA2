@@ -1,0 +1,16 @@
+{
+	"name": "Charging Plate",
+	"category": "misc",
+	"icon": "japta2:chargingplate_player",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Charging Plates are Pressure Plates that are capable of transferring power to items.  There are two types: The $(item)Player Charging Plate$() charges items in the inventory of players that stand on it, while the $(item)Item Charging Plate$() charges dropped items on top of it.  Each will output a redstone signal only when their target (players or items) is present."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:chargingplate_item",
+			"recipe2": "japta2:chargingplate_player"
+		}
+	]
+}

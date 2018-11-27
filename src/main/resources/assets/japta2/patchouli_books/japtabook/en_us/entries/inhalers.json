@@ -1,0 +1,15 @@
+{
+	"name": "Flux Inhaler",
+	"category": "transport",
+	"icon": "japta2:fluxinhaler",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Flux Inhaler is the inverse of the $(l:blasters)Flux Blaster$().  Instead of pushing energy to the 8 blocks in front of it, the Inhaler will pull energy from them.  The Flux Inhaler will not push energy, so another block, such as the $(l:fluxhopper)Flux Hopper$() must be used to pull the inhaled energy."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:inhaler_flux"
+		}
+	]
+}

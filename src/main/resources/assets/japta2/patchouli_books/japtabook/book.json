@@ -1,0 +1,7 @@
+{
+	"name": "The JAPTA Book",
+	"book_texture": "patchouli:textures/gui/book_gray.png",
+	"creative_tab": "japta2",
+	"landing_text": "It's the book!",
+	"model": "japta2:japtabook"
+}

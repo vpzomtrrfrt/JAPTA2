@@ -1,0 +1,15 @@
+{
+	"name": "Mover",
+	"category": "transport",
+	"icon": "japta2:mover",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Mover is a block than can move entities.  It can be placed in any direction, and any entity on top of it will be moved in that direction.  Movers require energy to function, and can also transport energy in the direction they are facing."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:mover"
+		}
+	]
+}

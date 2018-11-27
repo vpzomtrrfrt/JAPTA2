@@ -1,0 +1,15 @@
+{
+	"name": "Furnace Heater",
+	"category": "misc",
+	"icon": "japta2:furnaceheater",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Furnace Heater is a block that can use energy to power any Furnace placed next to it."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:furnaceheater"
+		}
+	]
+}

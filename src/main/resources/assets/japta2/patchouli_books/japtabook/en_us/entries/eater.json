@@ -1,0 +1,15 @@
+{
+	"name": "Eater",
+	"category": "generation",
+	"icon": "japta2:eater",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Eater is a block that can convert Food items into energy.  Food can be inserted via item transport or by dropping it onto the top.  Generated energy is pushed to all sides."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:eater"
+		}
+	]
+}

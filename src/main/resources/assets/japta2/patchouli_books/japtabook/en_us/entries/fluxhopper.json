@@ -1,0 +1,15 @@
+{
+	"name": "Flux Hopper",
+	"category": "transport",
+	"icon": "japta2:fluxhopper",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Flux Hopper is a block that can transport energy.  It can be placed in any direction except for upwards, and will push energy in that direction.  It also pulls energy from blocks placed on top."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:fluxhopper"
+		}
+	]
+}

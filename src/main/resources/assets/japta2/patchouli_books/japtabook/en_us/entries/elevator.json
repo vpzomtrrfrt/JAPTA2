@@ -1,0 +1,16 @@
+{
+	"name": "Elevator",
+	"category": "transport",
+	"icon": "japta2:elevatorshaft",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Elevator Shaft is a multi-block structure consisting of an $(item)Elevator Top$() on top of any number of $(item)Elevator Shaft$()s.  Energy must be supplied to the $(item)Top$().  Any players sneaking above the top will be teleported to the bottom of the structure, and any jumping at the bottom will be sent to the top."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:elevatortop",
+			"recipe2": "japta2:elevatorshaft"
+		}
+	]
+}

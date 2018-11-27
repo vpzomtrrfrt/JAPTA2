@@ -1,0 +1,16 @@
+{
+	"name": "Power Cabinet",
+	"category": "misc",
+	"icon": "japta2:powercabinet",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The Power Cabinet is a multi-block structure consisting of a $(item)Power Cabinet Base$() with any number of $(item)Power Cabinet Shaft$()s placed vertically on top of it.  Energy can be inserted into and pulled from the Base, and additional shafts increase its capacity."
+		},
+		{
+			"type": "crafting",
+			"recipe": "japta2:powercabinet",
+			"recipe2": "japta2:powercabinetbase"
+		}
+	]
+}
