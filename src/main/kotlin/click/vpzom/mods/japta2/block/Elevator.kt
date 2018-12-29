@@ -4,51 +4,36 @@ import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.util.BlockModelContainer
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
 import net.minecraft.block.Block
-import net.minecraft.block.material.Material
-import net.minecraft.block.state.IBlockState
-import net.minecraft.entity.EntityLivingBase
-import net.minecraft.init.SoundEvents
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.ITickable
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.block.BlockState
+import net.minecraft.block.Material
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.LivingEntity
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
+import net.minecraft.util.Tickable
+import net.minecraft.util.math.BoundingBox
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-object BlockElevatorShaft: Block(Material.GLASS) {
-	init {
-		setRegistryName("elevatorshaft")
-		setUnlocalizedName("elevatorshaft")
-		setHardness(1f)
-		setCreativeTab(JAPTA2.Tab)
-	}
-
+object BlockElevatorShaft: Block(Block.Settings.of(Material.GLASS).strength(1f, 1f)) {
 	val item = JAPTA2.basicBlockItem(this)
-
-	override fun isOpaqueCube(state: IBlockState): Boolean {
-		return false
-	}
 }
 
-object BlockElevatorTop: BlockModelContainer(Material.IRON) {
-	init {
-		setRegistryName("elevatortop")
-		setUnlocalizedName("elevatortop")
-		setHardness(3f)
-		setCreativeTab(JAPTA2.Tab)
-	}
-	
+object BlockElevatorTop: BlockModelContainer(Block.Settings.of(Material.METAL).strength(3f, 3f)) {
 	val item = JAPTA2.basicBlockItem(this)
 	val USE_BASE = 1000
 	val USE_EXTRA = 100
 
-	override fun createNewTileEntity(world: World, i: Int): TileEntity {
-		return TileEntityElevatorTop()
-	}
+	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityElevatorTop()
 }
 
-class TileEntityElevatorTop: TileEntityJPT(), ITickable {
+class TileEntityElevatorTop: TileEntityJPT(Type), Tickable {
+	companion object {
+		val Type = JAPTA2.registerBlockEntity("elevatorTop", BlockEntityType.Builder.create(::TileEntityElevatorTop))
+	}
 	override fun getMaxStoredEnergy(): Long {
 		return 26000
 	}
@@ -57,16 +42,18 @@ class TileEntityElevatorTop: TileEntityJPT(), ITickable {
 		return (BlockElevatorTop.USE_BASE + (BlockElevatorTop.USE_EXTRA - 1) * d).toLong()
 	}
 
-	override fun update() {
+	override fun tick() {
 		if(stored < BlockElevatorTop.USE_BASE) return // no possibility of having enough power, abort
 
-		val myPos = getPos()
 		val world = getWorld()
+		if(world == null || world.isClient) return
+
+		val myPos = getPos()
 
 		var d = 1
 		while(true) {
 			val curPos = myPos.down(d)
-			if(world.isAirBlock(curPos)) break
+			if(world.isAir(curPos)) break
 
 			val state = world.getBlockState(curPos)
 			val block = state?.getBlock()
@@ -80,50 +67,52 @@ class TileEntityElevatorTop: TileEntityJPT(), ITickable {
 		val cost = getEnergyCost(d)
 		if(stored < cost) return // not enough energy, abort
 
-		val topList = world.getEntitiesWithinAABB(
-				EntityLivingBase::class.java,
-				AxisAlignedBB(
+		val topList = world.getEntities(
+				LivingEntity::class.java,
+				BoundingBox(
 						myPos.getX().toDouble(),
 						myPos.getY().toDouble() + 1.0,
 						myPos.getZ().toDouble(),
 						myPos.getX().toDouble() + 1.0,
 						myPos.getY().toDouble() + 1.5,
 						myPos.getZ().toDouble() + 1.0
-				)
+				),
+				null
 		)
 		for(entity in topList) {
 			if(entity.isSneaking()) {
-				entity.setPositionAndUpdate(
+				entity.setPosition(
 						myPos.getX().toDouble() + 0.5,
 						myPos.getY().toDouble() - d - 1,
 						myPos.getZ().toDouble() + 0.5
 				)
-				world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.PLAYERS, 1f, 1f)
+				world.playSound(null, entity.x, entity.y, entity.z, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.PLAYER, 1f, 1f)
 				stored -= cost
 
 				if(stored < cost) return // out of energy, abort
 			}
 		}
 
-		val bottomList = world.getEntitiesWithinAABB(
-				EntityLivingBase::class.java,
-				AxisAlignedBB(
+		val bottomList = world.getEntities(
+				LivingEntity::class.java,
+				BoundingBox(
 						myPos.getX().toDouble(),
 						myPos.getY().toDouble() - d + 0.75,
 						myPos.getZ().toDouble(),
 						myPos.getX().toDouble() + 1,
 						myPos.getY().toDouble() - d + 1,
 						myPos.getZ().toDouble() + 1
-				)
+				),
+				null
 		)
 		for(entity in bottomList) {
-			if(entity.motionY > 0) {
-				entity.setPositionAndUpdate(
+			if(entity.velocityY > 0) {
+				entity.setPosition(
 						myPos.getX().toDouble() + 0.5,
 						myPos.getY().toDouble() + 1,
 						myPos.getZ().toDouble() + 0.5
 				)
-				world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.PLAYERS, 1f, 1f)
+				world.playSound(null, entity.x, entity.y, entity.z, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.PLAYER, 1f, 1f)
 				stored -= cost
 
 				if(stored < cost) return // out of energy, abort

@@ -27,48 +27,19 @@ import click.vpzom.mods.japta2.item.ItemBatteryPotato
 import click.vpzom.mods.japta2.item.ItemCoil
 import click.vpzom.mods.japta2.item.ItemRFMeter
 import net.minecraft.block.Block
-import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.block.model.ModelResourceLocation
-import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.client.MinecraftClient
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.item.ItemBlock
-import net.minecraft.util.ResourceLocation
-import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
-import net.minecraftforge.fml.common.event.FMLInitializationEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.registry.GameRegistry
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraft.item.block.BlockItem
+import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 
-@Mod(modid = JAPTA2.ID, name = "JAPTA2", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
 object JAPTA2 {
 	const val ID = "japta2"
 
-	object Tab: CreativeTabs("japta2") {
-		override fun getTabIconItem(): ItemStack {
-			return ItemStack(ItemRFMeter)
-		}
-	}
-
-	@Mod.EventHandler
-	fun preInit(event: FMLPreInitializationEvent) {
-		GameRegistry.registerTileEntity(TileEntityChargingPlate::class.java, ID + ":ChargingPlate")
-		GameRegistry.registerTileEntity(TileEntityEater::class.java, ID + ":Eater")
-		GameRegistry.registerTileEntity(TileEntityElevatorTop::class.java, ID + ":ElevatorTop")
-		GameRegistry.registerTileEntity(TileEntityFluxBlaster::class.java, ID + ":FluxBlaster")
-		GameRegistry.registerTileEntity(TileEntityItemBlaster::class.java, ID + ":ItemBlaster")
-		GameRegistry.registerTileEntity(TileEntityFluxHopper::class.java, ID + ":FluxHopper")
-		GameRegistry.registerTileEntity(TileEntityFurnaceHeater::class.java, ID + ":FurnaceHeater")
-		GameRegistry.registerTileEntity(TileEntityFurnaceSiphon::class.java, ID + ":FurnaceSiphon")
-		GameRegistry.registerTileEntity(TileEntityMover::class.java, ID + ":Mover")
-		GameRegistry.registerTileEntity(TileEntityPowerCabinetBase::class.java, ID + ":PowerCabinetBase")
-	}
-
-	@Mod.EventHandler
-	@SideOnly(Side.CLIENT)
+	/*
 	fun clientInit(event: FMLInitializationEvent) {
 		registerItemModel(BlockEater.item)
 		registerItemModel(BlockElevatorShaft.item)
@@ -93,65 +64,74 @@ object JAPTA2 {
 		registerItemModel(ItemCoil.transmission)
 		registerItemModel(ItemBatteryPotato)
 	}
+	*/
 
-	@Mod.EventBusSubscriber
-	object EventHandler {
-		@JvmStatic
-		@SubscribeEvent
-		fun registerBlocks(event: RegistryEvent.Register<Block>) {
-			event.registry.registerAll(
-					BlockEater,
-					BlockElevatorShaft,
-					BlockElevatorTop,
-					BlockFluxBlaster.normal,
-					BlockFluxBlaster.inhaler,
-					BlockItemBlaster.normal,
-					BlockFluxHopper,
-					BlockFurnaceHeater,
-					BlockFurnaceSiphon,
-					BlockMover,
-					BlockPowerCabinetBase,
-					BlockPowerCabinet,
-					BlockMachineBase,
-					BlockChargingPlate.wooden,
-					BlockChargingPlate.normal
-			)
-		}
+	fun registerBlocks() {
+		registerBlock("eater", BlockEater)
+		registerBlock("elevatorshaft", BlockElevatorShaft)
+		registerBlock("elevatortop", BlockElevatorTop)
+		registerBlock("fluxblaster", BlockFluxBlaster.normal)
+		registerBlock("fluxinhaler", BlockFluxBlaster.inhaler)
+		registerBlock("itemblaster", BlockItemBlaster.normal)
+		registerBlock("fluxhopper", BlockFluxHopper)
+		registerBlock("furnaceheater", BlockFurnaceHeater)
+		registerBlock("furnacesiphon", BlockFurnaceSiphon)
+		registerBlock("mover", BlockMover)
+		registerBlock("powercabinetbase", BlockPowerCabinetBase)
+		registerBlock("powercabinet", BlockPowerCabinet)
+		registerBlock("machinebase", BlockMachineBase)
+		registerBlock("chargingplate_item", BlockChargingPlate.wooden)
+		registerBlock("chargingplate_player", BlockChargingPlate.normal)
+	}
 
-		@JvmStatic
-		@SubscribeEvent
-		fun registerItems(event: RegistryEvent.Register<Item>) {
-			event.registry.registerAll(
-					BlockEater.item,
-					BlockElevatorShaft.item,
-					BlockElevatorTop.item,
-					BlockFluxBlaster.normal.item,
-					BlockFluxBlaster.inhaler.item,
-					BlockItemBlaster.normal.item,
-					BlockFluxHopper.item,
-					BlockFurnaceHeater.item,
-					BlockFurnaceSiphon.item,
-					BlockMover.item,
-					BlockPowerCabinetBase.item,
-					BlockPowerCabinet.Item,
-					BlockMachineBase.item,
-					BlockChargingPlate.wooden.item,
-					BlockChargingPlate.normal.item,
+	private fun registerBlock(name: String, block: Block) {
+		Registry.register(Registry.BLOCK, Identifier(ID, name), block)
+	}
 
-					ItemRFMeter,
-					ItemCoil.reception,
-					ItemCoil.transmission,
-					ItemBatteryPotato
-			)
+	fun registerItems() {
+		registerBlockItems(
+				BlockEater.item,
+				BlockElevatorShaft.item,
+				BlockElevatorTop.item,
+				BlockFluxBlaster.normal.item,
+				BlockFluxBlaster.inhaler.item,
+				BlockItemBlaster.normal.item,
+				BlockFluxHopper.item,
+				BlockFurnaceHeater.item,
+				BlockFurnaceSiphon.item,
+				BlockMover.item,
+				BlockPowerCabinetBase.item,
+				BlockPowerCabinet.ItemPowerCabinet,
+				BlockMachineBase.item,
+				BlockChargingPlate.wooden.item,
+				BlockChargingPlate.normal.item)
+
+		registerItem("rfmeter", ItemRFMeter)
+		registerItem("coilreception", ItemCoil.reception)
+		registerItem("coiltransmission", ItemCoil.transmission)
+		registerItem("batterypotato", ItemBatteryPotato)
+	}
+
+	private fun registerItem(name: String, item: Item) {
+		Registry.register(Registry.ITEM, Identifier(ID, name), item)
+	}
+
+	private fun registerBlockItems(vararg items: BlockItem) {
+		for(item in items) {
+			Registry.register(Registry.ITEM, Registry.BLOCK.getId(item.block), item)
 		}
 	}
 
-	fun basicBlockItem(block: Block): ItemBlock {
-		val tr = ItemBlock(block)
-		tr.setRegistryName(block.getRegistryName())
+	fun basicBlockItem(block: Block): BlockItem {
+		val tr = BlockItem(block, Item.Settings())
 		return tr
 	}
 
+	fun <T: BlockEntity>registerBlockEntity(name: String, builder: BlockEntityType.Builder<T>): BlockEntityType<T> {
+		return Registry.register(Registry.BLOCK_ENTITY, ID + ":" + name, builder.method_11034(null))
+	}
+
+	/*
 	private fun registerItemModel(item: Item) {
 		registerItemModel(item, 0)
 	}
@@ -166,6 +146,7 @@ object JAPTA2 {
 	}
 
 	private fun registerItemModel(item: Item, meta: Int, location: ModelResourceLocation) {
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, meta, location);
+		MinecraftClient.instance.itemRenderer.getItemModelMesher().register(item, meta, location);
 	}
+	*/
 }

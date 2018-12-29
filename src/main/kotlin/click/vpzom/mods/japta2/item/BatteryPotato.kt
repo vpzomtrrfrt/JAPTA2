@@ -2,46 +2,40 @@ package click.vpzom.mods.japta2.item
 
 import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.item.util.ItemJPT
-import net.minecraft.entity.EntityLivingBase
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.item.EnumAction
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
+import net.minecraft.util.TypedActionResult
 import net.minecraft.util.ActionResult
-import net.minecraft.util.EnumActionResult
-import net.minecraft.util.EnumHand
+import net.minecraft.util.Hand
+import net.minecraft.util.UseAction
 import net.minecraft.world.World
 
-object ItemBatteryPotato: ItemJPT() {
+object ItemBatteryPotato: ItemJPT(Item.Settings().itemGroup(ItemGroup.FOOD).durability(16000)) {
 	val USE = 500
 
-	init {
-		setRegistryName("batterypotato")
-		setUnlocalizedName("batterypotato")
-		setCreativeTab(JAPTA2.Tab)
-		setMaxDamage(16000)
-	}
+	override fun getUseAction(stack: ItemStack): UseAction = UseAction.EAT
+	override fun getMaxUseTime(stack: ItemStack): Int = 32
 
-	override fun getItemUseAction(stack: ItemStack): EnumAction = EnumAction.EAT
-	override fun getMaxItemUseDuration(stack: ItemStack): Int = 32
+	override fun onItemFinishedUsing(stack: ItemStack, world: World, ent: LivingEntity): ItemStack {
+		stack.applyDamage(USE, ent)
 
-	override fun onItemUseFinish(stack: ItemStack, world: World, ent: EntityLivingBase): ItemStack {
-		stack.damageItem(USE, ent)
-
-		val player = ent as? EntityPlayer
-		player?.getFoodStats()?.addStats(3, 1f)
+		val player = ent as? PlayerEntity
+		player?.hungerManager?.add(3, 1f)
 
 		return stack
 	}
 
-	override fun onItemRightClick(world: World, player: EntityPlayer, hand: EnumHand): ActionResult<ItemStack> {
-		val stack = player.getHeldItem(hand)
-		if(stack.item == this && player.canEat(false) && stack.getItemDamage() + USE <= stack.getMaxDamage()) {
-			player.setActiveHand(hand)
-			return ActionResult(EnumActionResult.SUCCESS, stack)
+	override fun use(world: World, player: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+		val stack = player.getStackInHand(hand)
+		if(stack.item == this && player.canConsume(false) && stack.damage + USE <= stack.durability) {
+			player.setCurrentHand(hand)
+			return TypedActionResult(ActionResult.SUCCESS, stack)
 		}
 		else {
-			return ActionResult(EnumActionResult.FAIL, stack)
+			return TypedActionResult(ActionResult.FAILURE, stack)
 		}
 	}
 }

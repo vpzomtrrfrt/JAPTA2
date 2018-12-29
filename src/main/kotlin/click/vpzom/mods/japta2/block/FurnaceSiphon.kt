@@ -5,48 +5,45 @@ import click.vpzom.mods.japta2.block.util.BlockModelContainer
 import click.vpzom.mods.japta2.block.util.EnergyHelper
 import click.vpzom.mods.japta2.block.util.FurnaceHelper
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
-import net.minecraft.block.BlockFurnace
-import net.minecraft.block.material.Material
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.tileentity.TileEntityFurnace
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.ITickable
+import click.vpzom.mods.japta2.mixin.MixinFurnace
+import net.minecraft.block.Block
+import net.minecraft.block.Material
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.block.entity.FurnaceBlockEntity
+import net.minecraft.util.math.Direction
+import net.minecraft.util.Tickable
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-object BlockFurnaceSiphon: BlockModelContainer(Material.IRON) {
-	init {
-		setRegistryName("furnacesiphon")
-		setUnlocalizedName("furnacesiphon")
-		setHardness(2f)
-		setCreativeTab(JAPTA2.Tab)
-	}
-
+object BlockFurnaceSiphon: BlockModelContainer(Block.Settings.of(Material.METAL).strength(2f, 2f)) {
 	val item = JAPTA2.basicBlockItem(this)
 
-	override fun createNewTileEntity(world: World, i: Int): TileEntity {
-		return TileEntityFurnaceSiphon()
-	}
+	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityFurnaceSiphon()
 }
 
-class TileEntityFurnaceSiphon: TileEntityJPT(), ITickable {
-	val TICK_VALUE = 2
+class TileEntityFurnaceSiphon: TileEntityJPT(Type), Tickable {
+	companion object {
+		val Type = JAPTA2.registerBlockEntity("furnacesiphon", BlockEntityType.Builder.create(::TileEntityFurnaceSiphon))
+		val TICK_VALUE = 2
+	}
 
 	override fun getMaxStoredEnergy(): Long {
 		return (TICK_VALUE * 50).toLong()
 	}
 
-	override fun update() {
+	override fun tick() {
 		val world = getWorld()
-		if(world.isRemote) return
+		if(world == null || world.isClient) return
 
-		for(direction in EnumFacing.VALUES) {
+		for(direction in Direction.values()) {
 			if(stored >= getMaxStoredEnergy()) break
 
 			val targetPos = pos.offset(direction)
-			val target = world.getTileEntity(targetPos)
+			val target = world.getBlockEntity(targetPos)
 
-			if(target is TileEntityFurnace) {
-				if(target.isBurning()) {
+			if(target is FurnaceBlockEntity) {
+				if((target as MixinFurnace).callIsBurning()) {
 					stored += TICK_VALUE
 				}
 			}

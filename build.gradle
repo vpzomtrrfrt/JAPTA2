@@ -1,56 +1,26 @@
 buildscript {
-	ext.kotlin_version = '1.2.40'
-	repositories {
-		jcenter()
-		maven {
-			name = "forge"
-			url = "https://files.minecraftforge.net/maven"
-		}
-	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.40"
 	}
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'java'
+plugins {
+	id 'fabric-loom' version '0.2.0-SNAPSHOT'
+}
+
 apply plugin: 'kotlin'
 
-repositories {
-	maven {
-		url = "https://maven.shadowfacts.net"
-	}
-	maven {
-		url = "https://maven.blamejared.com"
-	}
-}
+configurations.runtimeOnly.extendsFrom(configurations.modCompile)
 
 dependencies {
-	compile group: "net.shadowfacts", name: "Forgelin", version: "1.6.0"
-	compile group: "vazkii.patchouli", name: "Patchouli", version: "1.0-11.52"
+	minecraft "com.mojang:minecraft:18w50a"
+	mappings "net.fabricmc:yarn:18w50a.73"
+	modCompile "net.fabricmc:fabric-loader:0.3.1.80"
+
+	modCompile "net.fabricmc:fabric:0.1.2.64"
+
+	modCompile (group: "net.fabricmc", name: "fabric-language-kotlin", version: "1.3.10-28")
 }
 
 version = "0.0.1"
-group = "click.vpzom.mods.japta2"
-archivesBaseName = "JAPTA2-mc1.12.2"
-
-minecraft {
-	version = "1.12.2-14.23.2.2611"
-	runDir = "run"
-	mappings = "snapshot_20171003"
-}
-
-processResources {
-	inputs.property "version", project.version
-	inputs.property "mcversion", project.minecraft.version
-
-	from(sourceSets.main.resources.srcDirs) {
-		include 'mcmod.info'
-		expand 'version':project.version, 'mcversion':project.minecraft.version
-	}
-
-	from(sourceSets.main.resources.srcDirs) {
-		exclude 'mcmod.info'
-	}
-}
+archivesBaseName = "JAPTA2-mc1.14-fabric"

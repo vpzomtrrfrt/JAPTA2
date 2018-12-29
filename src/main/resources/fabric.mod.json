@@ -1,0 +1,16 @@
+{
+	"id": "japta2",
+	"name": "JAPTA2",
+	"side": "universal",
+	"version": "0.0.1",
+	"initializers": ["click.vpzom.mods.japta2.JAPTA2"],
+	"languageAdapter": "net.fabricmc.language.kotlin.KotlinLanguageAdapter",
+	"mixins": {
+		"common": "japta2.common.json"
+	},
+	"requires": {
+		"fabric-language-kotlin": {
+			"version": ">=1.3.10"
+		}
+	}
+}

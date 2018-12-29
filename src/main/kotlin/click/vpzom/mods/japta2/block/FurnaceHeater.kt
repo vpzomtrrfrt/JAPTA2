@@ -5,59 +5,57 @@ import click.vpzom.mods.japta2.block.util.BlockModelContainer
 import click.vpzom.mods.japta2.block.util.EnergyHelper
 import click.vpzom.mods.japta2.block.util.FurnaceHelper
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
-import net.minecraft.block.BlockFurnace
-import net.minecraft.block.material.Material
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.tileentity.TileEntityFurnace
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.ITickable
+import click.vpzom.mods.japta2.mixin.MixinFurnace
+import net.minecraft.block.AbstractFurnaceBlock
+import net.minecraft.block.Block
+import net.minecraft.block.Material
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.block.entity.FurnaceBlockEntity
+import net.minecraft.util.math.Direction
+import net.minecraft.util.Tickable
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-object BlockFurnaceHeater: BlockModelContainer(Material.IRON) {
-	init {
-		setRegistryName("furnaceheater")
-		setUnlocalizedName("furnaceheater")
-		setHardness(3f)
-		setCreativeTab(JAPTA2.Tab)
-	}
-
+object BlockFurnaceHeater: BlockModelContainer(Block.Settings.of(Material.METAL).strength(3f, 3f)) {
 	val item = JAPTA2.basicBlockItem(this)
 
-	override fun createNewTileEntity(world: World, i: Int): TileEntity {
-		return TileEntityFurnaceHeater()
-	}
+	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityFurnaceHeater()
 }
 
-class TileEntityFurnaceHeater: TileEntityJPT(), ITickable {
-	val TICK_COST = 30
+class TileEntityFurnaceHeater: TileEntityJPT(Type), Tickable {
+	companion object {
+		val Type = JAPTA2.registerBlockEntity("furnaceheater", BlockEntityType.Builder.create(::TileEntityFurnaceHeater))
+		val TICK_COST = 30
+	}
 
 	override fun getMaxStoredEnergy(): Long {
 		return (TICK_COST * 200).toLong()
 	}
 
-	override fun update() {
+	override fun tick() {
 		val world = getWorld()
-		if(world.isRemote) return
+		if(world == null || world.isClient) return
 
-		for(direction in EnumFacing.VALUES) {
+		for(direction in Direction.values()) {
 			if(stored < TICK_COST) return
 
 			val targetPos = pos.offset(direction)
-			val target = world.getTileEntity(targetPos)
+			val target = world.getBlockEntity(targetPos)
 
-			if(target is TileEntityFurnace) {
-				if(target.isBurning()) {
-					if(FurnaceHelper.canSmelt(target) && target.getField(0) < 2) {
-						target.setField(0, target.getField(0) + 1)
+			if(target is FurnaceBlockEntity) {
+				if((target as MixinFurnace).callIsBurning()) {
+					if(FurnaceHelper.canSmelt(target) && target.getInvProperty(0) < 2) {
+						target.setInvProperty(0, target.getInvProperty(0) + 1)
 						stored -= TICK_COST
 					}
 				}
 				else {
 					if(FurnaceHelper.canSmelt(target)) {
-						if(stored >= TICK_COST * target.getCookTime(target.getStackInSlot(0))) {
-							target.setField(0, 2)
+						if(stored >= TICK_COST * (target as MixinFurnace).callGetCookTime()) {
+							target.setInvProperty(0, 2)
 							stored -= TICK_COST
-							BlockFurnace.setState(true, getWorld(), targetPos)
+							world.setBlockState(targetPos, world.getBlockState(targetPos).with(AbstractFurnaceBlock.field_11105, true), 3)
 						}
 					}
 				}

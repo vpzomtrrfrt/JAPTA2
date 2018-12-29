@@ -2,34 +2,30 @@ package click.vpzom.mods.japta2.item
 
 import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.util.EnergyHelper
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
-import net.minecraft.util.EnumActionResult
-import net.minecraft.util.EnumHand
-import net.minecraft.util.EnumFacing
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemUsageContext
+import net.minecraft.util.ActionResult
+import net.minecraft.util.math.Direction
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.text.TranslatableTextComponent
 import net.minecraft.world.World
 
-object ItemRFMeter: Item() {
-	init {
-		setMaxStackSize(1)
-		setUnlocalizedName("rfmeter")
-		setRegistryName("rfmeter")
-		setCreativeTab(JAPTA2.Tab)
-	}
+object ItemRFMeter: Item(Item.Settings().stackSize(1).itemGroup(ItemGroup.TOOLS)) {
+	override fun useOnBlock(ctx: ItemUsageContext): ActionResult {
+		val player = ctx.player
+		if(player == null) return ActionResult.FAILURE
 
-	override fun onItemUse(player: EntityPlayer, world: World, pos: BlockPos, hand: EnumHand, side: EnumFacing, f1: Float, f2: Float, f3: Float): EnumActionResult {
-		if(!world.isRemote) {
-			val result = EnergyHelper.getStoredEnergy(world, pos, side)
+		if(!ctx.world.isClient) {
+			val result = EnergyHelper.getStoredEnergy(ctx.world, ctx.pos, ctx.facing)
 			if(result == null) {
-				player.sendMessage(TextComponentTranslation("text.japta2.rfmeter.no"))
+				player.addChatMessage(TranslatableTextComponent("text.japta2.rfmeter.no"), true)
 			}
 			else {
 				val (current, max) = result
-				player.sendMessage(TextComponentTranslation("text.japta2.rfmeter.result", current, max))
+				player.addChatMessage(TranslatableTextComponent("text.japta2.rfmeter.result", current, max), true)
 			}
 		}
-		return EnumActionResult.SUCCESS
+		return ActionResult.SUCCESS
 	}
 }

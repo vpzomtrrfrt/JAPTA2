@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "click.vpzom.mods.japta2.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"FurnaceMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

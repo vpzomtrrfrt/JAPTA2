@@ -3,41 +3,44 @@ package click.vpzom.mods.japta2.block
 import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.util.BlockModelContainer
 import click.vpzom.mods.japta2.block.util.TileEntityJPTBase
-import net.minecraft.block.material.Material
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EnumFacing
+import net.minecraft.block.Block
+import net.minecraft.block.Material
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.util.math.Direction
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 const val MAX_BASE_ENERGY = 1999L
 const val KEY_INTERNAL_ENERGY = "InternalEnergy"
 
-object BlockPowerCabinetBase: BlockModelContainer(Material.IRON) {
-	init {
-		setRegistryName("powercabinetbase")
-		setUnlocalizedName("powercabinetbase")
-		setHardness(3f)
-		setCreativeTab(JAPTA2.Tab)
-	}
-
+object BlockPowerCabinetBase: BlockModelContainer(Block.Settings.of(Material.METAL).strength(3f, 3f)) {
 	val item = JAPTA2.basicBlockItem(this)
 
-	override fun createNewTileEntity(world: World, i: Int): TileEntity {
+	override fun createBlockEntity(view: BlockView): BlockEntity {
 		return TileEntityPowerCabinetBase()
 	}
 }
 
-class TileEntityPowerCabinetBase: TileEntityJPTBase() {
+class TileEntityPowerCabinetBase: TileEntityJPTBase(Type) {
+	companion object {
+		public val Type = JAPTA2.registerBlockEntity("powercabinetbase", BlockEntityType.Builder.create(::TileEntityPowerCabinetBase))
+	}
+
 	var internalStorage = 0L
-	override fun getStoredEnergy(side: EnumFacing?): Long {
+	override fun getStoredEnergy(side: Direction?): Long {
 		val world = getWorld()
 		var total = internalStorage
+
+		if(world == null) return total
+
 		var curPos = getPos()
 		while(true) {
 			curPos = curPos.up()
 			val state = world.getBlockState(curPos)
 			if(state.getBlock() == BlockPowerCabinet) {
-				val value = state.getValue(BlockPowerCabinet.PROP_VALUE)
+				val value = state.get(BlockPowerCabinet.PROP_VALUE)
 				total += value * BlockPowerCabinet.LINE_VALUE
 			}
 			else {
@@ -46,9 +49,12 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		}
 		return total
 	}
-	override fun getMaxStoredEnergy(side: EnumFacing?): Long {
-		var total = MAX_BASE_ENERGY
+	override fun getMaxStoredEnergy(side: Direction?): Long {
 		val world = getWorld()
+		var total = MAX_BASE_ENERGY
+
+		if(world == null) return total
+
 		var curPos = getPos()
 		while(true) {
 			curPos = curPos.up()
@@ -62,7 +68,10 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		}
 		return total
 	}
-	override fun attemptExtractEnergy(side: EnumFacing?, maxExtract: Long, simulate: Boolean): Long {
+	override fun attemptExtractEnergy(side: Direction?, maxExtract: Long, simulate: Boolean): Long {
+		val world = getWorld()
+		if(world == null) return 0
+
 		if(maxExtract <= internalStorage) {
 			if(!simulate) internalStorage -= maxExtract
 			return maxExtract
@@ -72,7 +81,6 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		if(!simulate) extracted += internalStorage
 		internalStorage = 0
 
-		val world = getWorld()
 		val myPos = getPos()
 		var curPos = myPos
 		while(true) {
@@ -87,7 +95,7 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 			if(curPos.y <= myPos.y) break
 
 			val state = world.getBlockState(curPos)
-			var value = state.getValue(BlockPowerCabinet.PROP_VALUE)
+			var value = state.get(BlockPowerCabinet.PROP_VALUE)
 			if(value <= 0) continue
 			while(value > 0) {
 				value--
@@ -103,7 +111,7 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 				}
 			}
 			if(!simulate) {
-				world.setBlockState(curPos, state.withProperty(BlockPowerCabinet.PROP_VALUE, value))
+				world.setBlockState(curPos, state.with(BlockPowerCabinet.PROP_VALUE, value))
 			}
 			if(extracted >= maxExtract) break
 		}
@@ -111,12 +119,14 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		return extracted
 	}
 
-	override fun attemptInputEnergy(side: EnumFacing?, maxInput: Long, simulate: Boolean): Long {
+	override fun attemptInputEnergy(side: Direction?, maxInput: Long, simulate: Boolean): Long {
+		val world = getWorld()
+		if(world == null) return 0
+
 		var inserted = -internalStorage
 
 		if(!simulate) internalStorage = 0
 
-		val world = getWorld()
 		val myPos = getPos()
 		var curPos = myPos
 
@@ -125,7 +135,7 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 			val state = world.getBlockState(curPos)
 			if(state.getBlock() != BlockPowerCabinet) break
 
-			var value = state.getValue(BlockPowerCabinet.PROP_VALUE)
+			var value = state.get(BlockPowerCabinet.PROP_VALUE)
 			if(value >= 15) continue
 			while(value < 15) {
 				if(inserted + BlockPowerCabinet.LINE_VALUE > maxInput) {
@@ -142,7 +152,7 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 				}
 			}
 			if(!simulate) {
-				world.setBlockState(curPos, state.withProperty(BlockPowerCabinet.PROP_VALUE, value))
+				world.setBlockState(curPos, state.with(BlockPowerCabinet.PROP_VALUE, value))
 			}
 			if(inserted >= maxInput) break
 		}
@@ -157,14 +167,14 @@ class TileEntityPowerCabinetBase: TileEntityJPTBase() {
 		return inserted
 	}
 
-	override fun writeToNBT(_tag: NBTTagCompound): NBTTagCompound {
-		val tag = super.writeToNBT(_tag)
-		tag.setLong(KEY_INTERNAL_ENERGY, internalStorage)
+	override fun toTag(_tag: CompoundTag): CompoundTag {
+		val tag = super.toTag(_tag)
+		tag.putLong(KEY_INTERNAL_ENERGY, internalStorage)
 		return tag
 	}
 
-	override fun readFromNBT(tag: NBTTagCompound) {
-		super.readFromNBT(tag)
+	override fun fromTag(tag: CompoundTag) {
+		super.fromTag(tag)
 		internalStorage = tag.getLong(KEY_INTERNAL_ENERGY)
 	}
 }

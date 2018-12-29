@@ -1,24 +1,25 @@
 package click.vpzom.mods.japta2.block.util
 
 import click.vpzom.mods.japta2.block.util.TileEntityJPTBase
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.util.EnumFacing
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.util.math.Direction
 
 const val KEY_INTERNAL_ENERGY = "Energy"
 
-abstract class TileEntityJPT: TileEntityJPTBase() {
+abstract class TileEntityJPT(type: BlockEntityType<out TileEntityJPT>): TileEntityJPTBase(type) {
 	abstract fun getMaxStoredEnergy(): Long
 
 	protected var stored = 0L
 
-	final override fun getStoredEnergy(side: EnumFacing?): Long = stored
+	final override fun getStoredEnergy(side: Direction?): Long = stored
 
-	final override fun getMaxStoredEnergy(side: EnumFacing?): Long {
+	final override fun getMaxStoredEnergy(side: Direction?): Long {
 		return getMaxStoredEnergy()
 	}
 
-	override fun attemptInputEnergy(side: EnumFacing?, maxInput: Long, simulate: Boolean): Long {
+	override fun attemptInputEnergy(side: Direction?, maxInput: Long, simulate: Boolean): Long {
 		val max = getMaxStoredEnergy()
 		if(stored >= max) return 0
 		if(stored + maxInput >= max) {
@@ -30,7 +31,7 @@ abstract class TileEntityJPT: TileEntityJPTBase() {
 		return maxInput
 	}
 
-	override fun attemptExtractEnergy(side: EnumFacing?, maxExtract: Long, simulate: Boolean): Long {
+	override fun attemptExtractEnergy(side: Direction?, maxExtract: Long, simulate: Boolean): Long {
 		if(stored <= 0) return 0
 		if(maxExtract < stored) {
 			if(!simulate) stored -= maxExtract
@@ -41,24 +42,24 @@ abstract class TileEntityJPT: TileEntityJPTBase() {
 		return change
 	}
 
-	override fun writeToNBT(_tag: NBTTagCompound): NBTTagCompound {
-		val tag = super.writeToNBT(_tag)
-		tag.setLong(KEY_INTERNAL_ENERGY, stored)
+	override fun toTag(_tag: CompoundTag): CompoundTag {
+		val tag = super.toTag(_tag)
+		tag.putLong(KEY_INTERNAL_ENERGY, stored)
 		return tag
 	}
 
-	override fun readFromNBT(tag: NBTTagCompound) {
-		super.readFromNBT(tag)
+	override fun fromTag(tag: CompoundTag) {
+		super.fromTag(tag)
 		stored = tag.getLong(KEY_INTERNAL_ENERGY)
 	}
 
-	protected fun pushEnergy(direction: EnumFacing) {
+	protected fun pushEnergy(direction: Direction) {
 		val inserted = EnergyHelper.insertEnergy(world, getPos().offset(direction), direction.opposite, stored)
 		stored -= inserted
 	}
 
 	protected fun pushEnergy() {
-		for(direction in EnumFacing.VALUES) pushEnergy(direction)
+		for(direction in Direction.values()) pushEnergy(direction)
 	}
 
 	protected fun chargeItem(stack: ItemStack): Long {

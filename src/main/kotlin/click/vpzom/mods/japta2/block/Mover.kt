@@ -4,75 +4,76 @@ import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.util.BlockModelContainer
 import click.vpzom.mods.japta2.block.util.EnergyHelper
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
-import net.minecraft.block.material.Material
-import net.minecraft.block.properties.PropertyEnum
-import net.minecraft.block.state.BlockStateContainer
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.Material
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityLivingBase
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EntitySelectors
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.ITickable
-import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemPlacementContext
+import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.state.StateFactory
+import net.minecraft.state.property.EnumProperty
+import net.minecraft.util.math.Direction
+import net.minecraft.util.Tickable
+import net.minecraft.util.math.BoundingBox
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-val MOVER_FACING = PropertyEnum.create("facing", EnumFacing::class.java)
+val MOVER_FACING = EnumProperty.create("facing", Direction::class.java)
 
-object BlockMover: BlockModelContainer(Material.ROCK) {
+object BlockMover: BlockModelContainer(Block.Settings.of(Material.STONE).strength(1f, 1f)) {
 	init {
-		setRegistryName("mover")
-		setUnlocalizedName("mover")
-		setHardness(1f)
-		setCreativeTab(JAPTA2.Tab)
-		setDefaultState(blockState.getBaseState().withProperty(MOVER_FACING, EnumFacing.UP))
+		setDefaultState(stateFactory.getDefaultState().with(MOVER_FACING, Direction.UP))
 	}
 
 	val item = JAPTA2.basicBlockItem(this)
 
-	override fun createNewTileEntity(world: World, i: Int): TileEntity = TileEntityMover()
+	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityMover()
 
-	override fun createBlockState(): BlockStateContainer = BlockStateContainer(this, MOVER_FACING)
-	override fun getMetaFromState(state: IBlockState): Int = state.getValue(MOVER_FACING).getIndex()
-	override fun getStateFromMeta(meta: Int): IBlockState {
-		return defaultState.withProperty(MOVER_FACING, EnumFacing.getFront(meta))
+	override fun appendProperties(builder: StateFactory.Builder<Block, BlockState>) {
+		builder.with(MOVER_FACING)
 	}
 
-	override fun getStateForPlacement(world: World, pos: BlockPos, side: EnumFacing, f1: Float, f2: Float, f3: Float, i1: Int, placer: EntityLivingBase): IBlockState {
-		var facing = EnumFacing.getDirectionFromEntityLiving(pos, placer)
-		if(!placer.isSneaking()) {
+	override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+		var facing = ctx.playerFacing
+		if(ctx.player?.isSneaking() == true) {
 			facing = facing.getOpposite()
 		}
 
-		return super.getStateForPlacement(world, pos, side, f1, f2, f3, i1, placer).withProperty(MOVER_FACING, facing)
+		return super.getDefaultState().with(MOVER_FACING, facing)
 	}
 }
 
 val USE = 50
 
-class TileEntityMover: TileEntityJPT(), ITickable {
-	override fun update() {
+class TileEntityMover: TileEntityJPT(Type), Tickable {
+	companion object {
+		public val Type = JAPTA2.registerBlockEntity("mover", BlockEntityType.Builder.create(::TileEntityMover))
+	}
+
+	override fun tick() {
 		val pos = pos
 		val myState = world.getBlockState(pos)
 		if(myState.block != BlockMover) return
 
-		val facing = myState.getValue(MOVER_FACING)
+		val facing = myState.get(MOVER_FACING)
 
 		if(stored >= USE) {
-			val change = facing.directionVec
-			val list = world.getEntitiesWithinAABB(Entity::class.java, AxisAlignedBB(pos.x.toDouble(), pos.y + 1.0, pos.z.toDouble(), pos.x + 1.0, pos.y + 1.5, pos.z + 1.0), EntitySelectors.IS_ALIVE)
+			val change = facing.vector
+			val list = world.getEntities(Entity::class.java, BoundingBox(pos.x.toDouble(), pos.y + 1.0, pos.z.toDouble(), pos.x + 1.0, pos.y + 1.5, pos.z + 1.0), EntityPredicates.VALID_ENTITY)
 
 			entLoop@ for(ent in list) {
 				when(ent) {
-					is EntityLivingBase -> {
+					is LivingEntity -> {
 						if(ent.isSneaking()) continue@entLoop
-						ent.setPositionAndUpdate(ent.posX + change.x * 0.5, ent.posY + change.y * 0.5, ent.posZ + change.z * 0.5)
 					}
 					else -> {
-						ent.setPosition(ent.posX + change.x * 0.5, ent.posY + change.y * 0.5, ent.posZ + change.z * 0.5)
 					}
 				}
+				ent.setPosition(ent.x + change.x * 0.5, ent.y + change.y * 0.5, ent.z + change.z * 0.5) // TODO see if this works?
 				stored -= USE
 				if(stored < USE) break@entLoop
 			}

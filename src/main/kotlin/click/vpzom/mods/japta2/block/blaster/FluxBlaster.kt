@@ -4,41 +4,44 @@ import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.BlockElevatorShaft
 import click.vpzom.mods.japta2.block.util.EnergyHelper
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.ITickable
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.util.math.Direction
+import net.minecraft.util.Tickable
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class BlockFluxBlaster private constructor(name: String, inhale: Boolean): BlockBlaster(name, inhale, false) {
+class BlockFluxBlaster private constructor(name: String, inhale: Boolean): BlockBlaster(BlockBlaster.defaultSettings(), name, inhale, false) {
 	companion object {
 		val normal = BlockFluxBlaster("fluxblaster", false)
 		val inhaler = BlockFluxBlaster("fluxinhaler", true)
 	}
 
-	init {
-		setCreativeTab(JAPTA2.Tab)
-	}
-
-	override fun createNewTileEntity(world: World, i: Int): TileEntity {
+	override fun createBlockEntity(view: BlockView): BlockEntity {
 		return TileEntityFluxBlaster()
 	}
 }
 
-class TileEntityFluxBlaster: TileEntityJPT(), ITickable {
+class TileEntityFluxBlaster: TileEntityJPT(Type), Tickable {
+	companion object {
+		public val Type = JAPTA2.registerBlockEntity("fluxblaster", BlockEntityType.Builder.create(::TileEntityFluxBlaster))
+	}
 	override fun getMaxStoredEnergy(): Long {
 		return 10000
 	}
 
-	override fun update() {
+	override fun tick() {
 		val world = getWorld()
+		if(world == null) return
+
 		val myPos = getPos()
 		val myState = world.getBlockState(myPos)
 
 		val myBlock = myState.getBlock() as? BlockFluxBlaster
 		if(myBlock == null) return
 
-		val facing = myState.getValue(BlockBlaster.PROP_FACING)
+		val facing = myState.get(BlockBlaster.PROP_FACING)
 		val range = BlockBlaster.RANGE
 		val inhale = myBlock.inhale
 

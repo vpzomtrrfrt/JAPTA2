@@ -2,25 +2,30 @@ package click.vpzom.mods.japta2.block
 
 import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
-import net.minecraft.block.BlockBasePressurePlate
-import net.minecraft.block.ITileEntityProvider
-import net.minecraft.block.material.Material
-import net.minecraft.block.properties.PropertyBool
-import net.minecraft.block.state.BlockStateContainer
-import net.minecraft.block.state.IBlockState
+import net.minecraft.block.AbstractPressurePlateBlock
+import net.minecraft.block.Block
+import net.minecraft.block.BlockEntityProvider
+import net.minecraft.block.BlockState
+import net.minecraft.block.Material
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.Entity
-import net.minecraft.entity.item.EntityItem
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.init.SoundEvents
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.ITickable
-import net.minecraft.util.SoundCategory
-import net.minecraft.util.SoundEvent
-import net.minecraft.util.math.AxisAlignedBB
+import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
+import net.minecraft.state.StateFactory
+import net.minecraft.state.property.BooleanProperty
+import net.minecraft.util.Tickable
+import net.minecraft.util.math.BoundingBox
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.BlockView
+import net.minecraft.world.IWorld
 import net.minecraft.world.World
 
-val ACTIVE = PropertyBool.create("active")
+val ACTIVE = BooleanProperty.create("active")
 
 enum class ChargingPlateType(
 		val plateName: String,
@@ -32,95 +37,84 @@ enum class ChargingPlateType(
 	ITEM(
 			"chargingplate_item",
 			Material.WOOD,
-			EntityItem::class.java,
-			SoundEvents.BLOCK_WOOD_PRESSPLATE_CLICK_ON,
-			SoundEvents.BLOCK_WOOD_PRESSPLATE_CLICK_OFF
+			ItemEntity::class.java,
+			SoundEvents.BLOCK_WOODEN_PRESSURE_PLATE_CLICK_ON,
+			SoundEvents.BLOCK_WOODEN_PRESSURE_PLATE_CLICK_OFF
 	),
 	PLAYER(
 			"chargingplate_player",
-			Material.ROCK,
-			EntityPlayer::class.java,
-			SoundEvents.BLOCK_STONE_PRESSPLATE_CLICK_ON,
-			SoundEvents.BLOCK_STONE_PRESSPLATE_CLICK_OFF
+			Material.STONE,
+			PlayerEntity::class.java,
+			SoundEvents.BLOCK_STONE_PRESSURE_PLATE_CLICK_ON,
+			SoundEvents.BLOCK_STONE_PRESSURE_PLATE_CLICK_OFF
 	)
 }
 
-public class BlockChargingPlate private constructor(val type: ChargingPlateType): BlockBasePressurePlate(type.material), ITileEntityProvider {
+public class BlockChargingPlate private constructor(val type: ChargingPlateType): AbstractPressurePlateBlock(Block.Settings.of(type.material).strength(1f, 1f)), BlockEntityProvider {
 	companion object {
 		val wooden = BlockChargingPlate(ChargingPlateType.ITEM)
 		val normal = BlockChargingPlate(ChargingPlateType.PLAYER)
 	}
-	init {
-		setHardness(1f)
-		setCreativeTab(JAPTA2.Tab)
-		setUnlocalizedName(type.plateName)
-		setRegistryName(type.plateName)
-	}
 
 	val item = JAPTA2.basicBlockItem(this)
 
-	fun getBB(pos: BlockPos): AxisAlignedBB {
-		return PRESSURE_AABB.offset(pos)
+	fun getBB(pos: BlockPos): BoundingBox {
+		return BOX.offset(pos)
 	}
 
-	override fun createNewTileEntity(world: World, i: Int): TileEntity {
-		return TileEntityChargingPlate()
+	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityChargingPlate()
+
+	override fun appendProperties(builder: StateFactory.Builder<Block, BlockState>) {
+		builder.with(ACTIVE)
 	}
 
-	override fun createBlockState(): BlockStateContainer {
-		return BlockStateContainer(this, ACTIVE)
-	}
-
-	override fun getMetaFromState(state: IBlockState): Int {
-		if(state.getValue(ACTIVE)) return 15
-		return 0
-	}
-
-	override fun getStateFromMeta(meta: Int): IBlockState {
-		return getDefaultState().withProperty(ACTIVE, meta > 0)
-	}
-
-	override fun computeRedstoneStrength(world: World, pos: BlockPos): Int {
-		val nothing = world.getEntitiesWithinAABB(type.target, getBB(pos)).isEmpty()
+	override fun getRedstoneOutput(world: World, pos: BlockPos): Int {
+		val nothing = world.getEntities(type.target, getBB(pos), EntityPredicates.VALID_ENTITY).isEmpty()
 		if(nothing) return 0
 		return 15
 	}
 
-	override fun getRedstoneStrength(state: IBlockState): Int {
-		return getMetaFromState(state)
+	override fun getRedstoneOutput(state: BlockState): Int {
+		if(state.get(ACTIVE)) {
+			return 15
+		}
+		return 0
 	}
 
-	override fun setRedstoneStrength(state: IBlockState, s: Int): IBlockState {
-		return state.withProperty(ACTIVE, s > 0)
+	override fun setRedstoneOutput(state: BlockState, s: Int): BlockState {
+		return state.with(ACTIVE, s > 0)
 	}
 
-	override fun playClickOnSound(world: World, pos: BlockPos) {
-		world.playSound(null, pos, type.clickOnSound, SoundCategory.BLOCKS, .3f, .3f)
+	override fun playPressSound(world: IWorld, pos: BlockPos) {
+		world.playSound(null, pos, type.clickOnSound, SoundCategory.BLOCK, .3f, .3f)
 	}
 
-	override fun playClickOffSound(world: World, pos: BlockPos) {
-		world.playSound(null, pos, type.clickOffSound, SoundCategory.BLOCKS, .3f, .3f)
+	override fun playDepressSound(world: IWorld, pos: BlockPos) {
+		world.playSound(null, pos, type.clickOffSound, SoundCategory.BLOCK, .3f, .3f)
 	}
 }
 
-public class TileEntityChargingPlate: TileEntityJPT(), ITickable {
+public class TileEntityChargingPlate: TileEntityJPT(Type), Tickable {
+	companion object {
+		val Type = JAPTA2.registerBlockEntity("chargingplate", BlockEntityType.Builder.create(::TileEntityChargingPlate))
+	}
 	override fun getMaxStoredEnergy(): Long = 1000
 
-	override fun update() {
+	override fun tick() {
 		if(stored <= 0) return
 
 		val state = world.getBlockState(pos)
 		val block = state.block as? BlockChargingPlate
 		if(block == null) return
-		if(!state.getValue(ACTIVE)) return
+		if(!state.get(ACTIVE)) return
 
 		val aabb = block.getBB(pos)
 
 		when(block.type) {
 			ChargingPlateType.ITEM -> {
-				val list = world.getEntitiesWithinAABB(EntityItem::class.java, aabb)
+				val list = world.getEntities(ItemEntity::class.java, aabb, EntityPredicates.VALID_ENTITY)
 				for(item in list) {
-					val stack = item.item
+					val stack = item.stack
 					chargeItem(stack)
 					if(stored <= 0) return
 
@@ -128,11 +122,11 @@ public class TileEntityChargingPlate: TileEntityJPT(), ITickable {
 				}
 			}
 			ChargingPlateType.PLAYER -> {
-				val list = world.getEntitiesWithinAABB(EntityPlayer::class.java, aabb)
+				val list = world.getEntities(PlayerEntity::class.java, aabb, EntityPredicates.VALID_ENTITY)
 				for(player in list) {
 					val inv = player.inventory
-					for(i in 0 until inv.getSizeInventory()) {
-						val stack = inv.getStackInSlot(i)
+					for(i in 0 until inv.getInvSize()) {
+						val stack = inv.getInvStack(i)
 						chargeItem(stack)
 					}
 				}

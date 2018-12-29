@@ -2,71 +2,68 @@ package click.vpzom.mods.japta2.block.blaster
 
 import click.vpzom.mods.japta2.JAPTA2
 import click.vpzom.mods.japta2.block.BlockElevatorShaft
-import net.minecraft.block.state.IBlockState
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.inventory.IInventory
-import net.minecraft.inventory.InventoryHelper
+import click.vpzom.mods.japta2.block.util.InventoryHelper
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.block.BlockState
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.nbt.NBTTagList
-import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.EnumHand
-import net.minecraft.util.ITickable
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.text.TextComponent
+import net.minecraft.text.TranslatableTextComponent
+import net.minecraft.util.math.Direction
+import net.minecraft.util.Hand
+import net.minecraft.util.Tickable
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.text.ITextComponent
-import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.world.BlockView
+import net.minecraft.world.IWorld
 import net.minecraft.world.World
-import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.CapabilityInject
-import net.minecraftforge.common.capabilities.ICapabilityProvider
-import net.minecraftforge.items.IItemHandler
-import net.minecraftforge.items.ItemHandlerHelper
-import net.minecraftforge.items.wrapper.InvWrapper
 
-class BlockItemBlaster private constructor(name: String, inhale: Boolean, split: Boolean): BlockBlaster(name, inhale, split) {
+class BlockItemBlaster private constructor(name: String, inhale: Boolean, split: Boolean): BlockBlaster(BlockBlaster.defaultSettings(), name, inhale, split) {
 	companion object {
 		val normal = BlockItemBlaster("itemblaster", false, false)
 	}
 
 	init {
-		setCreativeTab(JAPTA2.Tab)
 	}
 
-	override fun createNewTileEntity(world: World, i: Int): TileEntity {
+	override fun createBlockEntity(view: BlockView): BlockEntity {
 		return TileEntityItemBlaster()
 	}
 
-	override fun onBlockActivated(world: World, pos: BlockPos, state: IBlockState, player: EntityPlayer, hand: EnumHand, side: EnumFacing, f1: Float, f2: Float, f3: Float): Boolean {
-		player.displayGUIChest(world.getTileEntity(pos) as IInventory)
+	override fun activate(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, side: Direction, f1: Float, f2: Float, f3: Float): Boolean {
+		player.openInventory(world.getBlockEntity(pos) as Inventory)
 		return true
 	}
 
-	override fun breakBlock(world: World, pos: BlockPos, state: IBlockState) {
-		InventoryHelper.dropInventoryItems(world, pos, world.getTileEntity(pos) as IInventory)
-		super.breakBlock(world, pos, state)
+	override fun onBroken(world: IWorld, pos: BlockPos, state: BlockState) {
+		InventoryHelper.dropInventoryItems(world, pos, world.getBlockEntity(pos) as Inventory)
+		super.onBroken(world, pos, state)
 	}
 }
 
 val SIZE = 9
 
-class TileEntityItemBlaster: TileEntity(), ITickable, IInventory {
+class TileEntityItemBlaster: BlockEntity(Type), Tickable, Inventory {
 	companion object {
-		@CapabilityInject(IItemHandler::class)
-		lateinit var CAPABILITY_ITEM_HANDLER: Capability<IItemHandler>
+		public val Type = JAPTA2.registerBlockEntity("itemblaster", BlockEntityType.Builder.create(::TileEntityItemBlaster))
 	}
 
 	private val inv = Array(SIZE, { ItemStack.EMPTY })
 	private var index = 1
 
-	override fun update() {
+	override fun tick() {
 		val world = getWorld()
+		if(world == null) return
+
 		val myPos = getPos()
 		val myState = world.getBlockState(myPos)
 		val myBlock = myState.block as? BlockItemBlaster
 		if(myBlock == null) return
 
-		val facing = myState.getValue(BlockBlaster.PROP_FACING)
+		val facing = myState.get(BlockBlaster.PROP_FACING)
 		val side = facing.opposite
 		val range = BlockBlaster.RANGE
 
@@ -87,18 +84,16 @@ class TileEntityItemBlaster: TileEntity(), ITickable, IInventory {
 				curPos = curPos.up()
 			}
 
-			val te = world.getTileEntity(curPos)
+			val te = world.getBlockEntity(curPos)
 			if(te != null) {
-				if(te.hasCapability(CAPABILITY_ITEM_HANDLER, side)) {
-					val cap = te.getCapability(CAPABILITY_ITEM_HANDLER, side)
-					if(cap != null) {
-						val returned = ItemHandlerHelper.insertItem(cap, firstStack.splitStack(1), false)
-						if(returned.isEmpty()) {
-							break
-						}
-						else {
-							firstStack.grow(1)
-						}
+				val inv = te as? Inventory
+				if(inv != null) {
+					val returned = InventoryHelper.insertItem(inv, firstStack.split(1))
+					if(returned.isEmpty()) {
+						break
+					}
+					else {
+						firstStack.addAmount(1)
 					}
 				}
 			}
@@ -113,7 +108,7 @@ class TileEntityItemBlaster: TileEntity(), ITickable, IInventory {
 			val stack = inv[i]
 			if(stack?.isEmpty() == false) {
 				if(remove) {
-					return removeStackFromSlot(i)
+					return removeInvStack(i)
 				}
 				return stack
 			}
@@ -121,118 +116,81 @@ class TileEntityItemBlaster: TileEntity(), ITickable, IInventory {
 		return null
 	}
 
-	override fun writeToNBT(_tag: NBTTagCompound): NBTTagCompound {
-		val tag = super.writeToNBT(_tag)
-		val list = NBTTagList()
+	override fun toTag(_tag: CompoundTag): CompoundTag {
+		val tag = super.toTag(_tag)
+		val list = ListTag()
 		for(i in 0 until SIZE) {
 			val stack = inv[i]
 			if(!stack.isEmpty()) {
-				val stackTag = NBTTagCompound()
-				stack.writeToNBT(stackTag)
-				stackTag.setByte("Slot", i.toByte())
-				list.appendTag(stackTag)
+				val stackTag = CompoundTag()
+				stack.toTag(stackTag)
+				stackTag.putByte("Slot", i.toByte())
+				list.add(stackTag)
 			}
 		}
-		tag.setTag("Items", list)
+		tag.put("Items", list)
 		return tag
 	}
 
-	override fun readFromNBT(tag: NBTTagCompound) {
-		super.readFromNBT(tag)
+	override fun fromTag(tag: CompoundTag) {
+		super.fromTag(tag)
 
-		val list = tag.getTag("Items") as? NBTTagList
+		val list = tag.getTag("Items") as? ListTag
 		if(list != null) {
-			for(i in 0 until list.tagCount()) {
-				val stackTag = list.getCompoundTagAt(i)
+			for(i in 0 until list.size) {
+				val stackTag = list.getCompoundTag(i)
 				val slot = stackTag.getByte("Slot")
-				inv[slot.toInt()] = ItemStack(stackTag)
+				inv[slot.toInt()] = ItemStack.fromTag(stackTag)
 			}
 		}
 	}
 
-	override fun getField(i: Int): Int {
-		return 0
-	}
-
-	override fun hasCustomName(): Boolean {
-		return false
-	}
-
-	override fun getStackInSlot(slot: Int): ItemStack {
+	override fun getInvStack(slot: Int): ItemStack {
 		return inv[slot]
 	}
 
-	override fun decrStackSize(slot: Int, count: Int): ItemStack {
+	override fun takeInvStack(slot: Int, count: Int): ItemStack {
 		val stack = inv[slot]
-		if(stack.count <= count) {
+		if(stack.amount <= count) {
 			inv[slot] = ItemStack.EMPTY
 			return stack
 		}
 		else {
-			return stack.splitStack(count)
+			return stack.split(count)
 		}
 	}
 
-	override fun clear() {
+	override fun clearInv() {
 		for(i in 0 until SIZE) {
 			inv[i] = ItemStack.EMPTY
 		}
 	}
 
-	override fun getSizeInventory(): Int = SIZE
 
-	override fun getName(): String {
-		return getWorld().getBlockState(getPos()).getBlock().getUnlocalizedName() + ".name"
+	override fun getInvSize(): Int = SIZE
+
+	override fun getName(): TextComponent {
+		return TranslatableTextComponent(world?.getBlockState(pos)?.block?.translationKey + ".name")
 	}
 
-	override fun isEmpty(): Boolean {
+	override fun isInvEmpty(): Boolean {
 		for(stack in inv) {
 			if(!stack.isEmpty()) return false
 		}
 		return true
 	}
 
-	override fun isItemValidForSlot(slot: Int, stack: ItemStack): Boolean {
-		return true
-	}
-
-	override fun getInventoryStackLimit(): Int = 64
-
-	override fun isUsableByPlayer(player: EntityPlayer): Boolean {
-		return true
-	}
-
-	override fun openInventory(player: EntityPlayer) {}
-
-	override fun closeInventory(player: EntityPlayer) {}
-
-	override fun setField(i: Int, v: Int) {}
-
-	override fun setInventorySlotContents(slot: Int, stack: ItemStack?) {
+	override fun setInvStack(slot: Int, stack: ItemStack?) {
 		inv[slot] = stack ?: ItemStack.EMPTY
 	}
 
-	override fun removeStackFromSlot(slot: Int): ItemStack {
+	override fun removeInvStack(slot: Int): ItemStack {
 		val tr = inv[slot]
 		inv[slot] = ItemStack.EMPTY
 		return tr
 	}
 
-	override fun getFieldCount(): Int = 0
-
-	override fun getDisplayName(): ITextComponent {
-		return TextComponentTranslation(getName())
-	}
-
-	private val itemHandler = InvWrapper(this)
-
-	override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
-		if(capability == CAPABILITY_ITEM_HANDLER) return itemHandler as T
-		return super.getCapability(capability, facing)
-	}
-
-	override fun hasCapability(capability: Capability<*>, facing: EnumFacing?): Boolean {
-		if(capability == CAPABILITY_ITEM_HANDLER) return true
-		return super.hasCapability(capability, facing)
+	override fun canPlayerUseInv(player: PlayerEntity): Boolean {
+		return player.squaredDistanceTo(pos.x + 0.5, pos.y + 0.5, pos.z + 0.5) < 64
 	}
 }
