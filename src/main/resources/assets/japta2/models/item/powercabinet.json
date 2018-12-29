@@ -1,0 +1,20 @@
+{
+	"parent": "japta2:item/powercabinet_item0",
+	"overrides": [
+		{"predicate": {"japta2:powercabinet_value": 1}, "model": "japta2:item/powercabinet_item1"},
+		{"predicate": {"japta2:powercabinet_value": 2}, "model": "japta2:item/powercabinet_item2"},
+		{"predicate": {"japta2:powercabinet_value": 3}, "model": "japta2:item/powercabinet_item3"},
+		{"predicate": {"japta2:powercabinet_value": 4}, "model": "japta2:item/powercabinet_item4"},
+		{"predicate": {"japta2:powercabinet_value": 5}, "model": "japta2:item/powercabinet_item5"},
+		{"predicate": {"japta2:powercabinet_value": 6}, "model": "japta2:item/powercabinet_item6"},
+		{"predicate": {"japta2:powercabinet_value": 7}, "model": "japta2:item/powercabinet_item7"},
+		{"predicate": {"japta2:powercabinet_value": 8}, "model": "japta2:item/powercabinet_item8"},
+		{"predicate": {"japta2:powercabinet_value": 9}, "model": "japta2:item/powercabinet_item9"},
+		{"predicate": {"japta2:powercabinet_value": 10}, "model": "japta2:item/powercabinet_item10"},
+		{"predicate": {"japta2:powercabinet_value": 11}, "model": "japta2:item/powercabinet_item11"},
+		{"predicate": {"japta2:powercabinet_value": 12}, "model": "japta2:item/powercabinet_item12"},
+		{"predicate": {"japta2:powercabinet_value": 13}, "model": "japta2:item/powercabinet_item13"},
+		{"predicate": {"japta2:powercabinet_value": 14}, "model": "japta2:item/powercabinet_item14"},
+		{"predicate": {"japta2:powercabinet_value": 15}, "model": "japta2:item/powercabinet_item15"}
+	]
+}

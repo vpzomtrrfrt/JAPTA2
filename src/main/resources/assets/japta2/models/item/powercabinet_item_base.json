@@ -1,0 +1,10 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"side": "japta2:block/powercabinet_wall",
+		"end": "japta2:block/powercabinet_wall",
+		"top": "japta2:block/powercabinet_top",
+		"particle": "japta2:block/powercabinet_wall",
+		"fill": "japta2:block/powercabinet_fill"
+	}
+}
