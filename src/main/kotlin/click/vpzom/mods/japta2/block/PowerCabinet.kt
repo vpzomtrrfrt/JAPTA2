@@ -20,7 +20,7 @@ object BlockPowerCabinet: Block(Block.Settings.of(Material.METAL).strength(2f, 2
 	val LINE_VALUE = 2000
 	val PROP_VALUE = VALUE
 
-	object ItemPowerCabinet: BlockItem(BlockPowerCabinet, Item.Settings()) {
+	object ItemPowerCabinet: BlockItem(BlockPowerCabinet, Item.Settings().itemGroup(ItemGroup.REDSTONE)) {
 	}
 
 	override fun appendProperties(builder: StateFactory.Builder<Block, BlockState>) {

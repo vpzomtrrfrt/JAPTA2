@@ -1,10 +1,10 @@
 {
     "variants": {
-        "facing=down":  { "model": "japta2:itemblaster", "x": 180 },
-        "facing=up":    { "model": "japta2:itemblaster" },
-        "facing=north": { "model": "japta2:itemblaster", "x": 90 },
-        "facing=south": { "model": "japta2:itemblaster", "x": 270 },
-        "facing=west":  { "model": "japta2:itemblaster", "x": 90, "y": 270 },
-        "facing=east":  { "model": "japta2:itemblaster", "x": 90, "y": 90 }
+        "facing=down":  { "model": "japta2:block/itemblaster", "x": 180 },
+        "facing=up":    { "model": "japta2:block/itemblaster" },
+        "facing=north": { "model": "japta2:block/itemblaster", "x": 90 },
+        "facing=south": { "model": "japta2:block/itemblaster", "x": 270 },
+        "facing=west":  { "model": "japta2:block/itemblaster", "x": 90, "y": 270 },
+        "facing=east":  { "model": "japta2:block/itemblaster", "x": 90, "y": 90 }
     }
 }

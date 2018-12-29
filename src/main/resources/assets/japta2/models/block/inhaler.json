@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_bottom_top",
     "textures": {
-        "bottom": "japta2:blocks/machinebase",
+        "bottom": "japta2:block/machinebase",
         "top": "#front"
     }
 }

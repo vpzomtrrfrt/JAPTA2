@@ -12,6 +12,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemGroup
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvent
@@ -56,7 +57,7 @@ public class BlockChargingPlate private constructor(val type: ChargingPlateType)
 		val normal = BlockChargingPlate(ChargingPlateType.PLAYER)
 	}
 
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 
 	fun getBB(pos: BlockPos): BoundingBox {
 		return BOX.offset(pos)
@@ -94,9 +95,9 @@ public class BlockChargingPlate private constructor(val type: ChargingPlateType)
 	}
 }
 
-public class TileEntityChargingPlate: TileEntityJPT(Type), Tickable {
+public class TileEntityChargingPlate: TileEntityJPT(type), Tickable {
 	companion object {
-		val Type = JAPTA2.registerBlockEntity("chargingplate", BlockEntityType.Builder.create(::TileEntityChargingPlate))
+		lateinit var type: BlockEntityType<TileEntityChargingPlate>
 	}
 	override fun getMaxStoredEnergy(): Long = 1000
 

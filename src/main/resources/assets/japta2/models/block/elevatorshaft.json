@@ -1,9 +1,9 @@
 {
 	"parent": "block/block",
 	"textures": {
-		"all": "japta2:blocks/elevatorshaft",
-		"top": "japta2:blocks/elevatorshaft_bottom",
-		"bottom": "japta2:blocks/elevatorshaft_bottom",
+		"all": "japta2:block/elevatorshaft",
+		"top": "japta2:block/elevatorshaft_bottom",
+		"bottom": "japta2:block/elevatorshaft_bottom",
 		"particle": "#all"
 	},
 	"elements": [

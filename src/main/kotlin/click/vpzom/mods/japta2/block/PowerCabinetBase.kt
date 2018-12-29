@@ -7,6 +7,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.item.ItemGroup
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
@@ -16,16 +17,16 @@ const val MAX_BASE_ENERGY = 1999L
 const val KEY_INTERNAL_ENERGY = "InternalEnergy"
 
 object BlockPowerCabinetBase: BlockModelContainer(Block.Settings.of(Material.METAL).strength(3f, 3f)) {
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 
 	override fun createBlockEntity(view: BlockView): BlockEntity {
 		return TileEntityPowerCabinetBase()
 	}
 }
 
-class TileEntityPowerCabinetBase: TileEntityJPTBase(Type) {
+class TileEntityPowerCabinetBase: TileEntityJPTBase(type) {
 	companion object {
-		public val Type = JAPTA2.registerBlockEntity("powercabinetbase", BlockEntityType.Builder.create(::TileEntityPowerCabinetBase))
+		lateinit var type: BlockEntityType<TileEntityPowerCabinetBase>
 	}
 
 	var internalStorage = 0L

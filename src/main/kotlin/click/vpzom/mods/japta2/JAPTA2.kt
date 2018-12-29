@@ -32,6 +32,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.client.MinecraftClient
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.item.block.BlockItem
 import net.minecraft.util.Identifier
@@ -43,6 +44,7 @@ object JAPTA2: ModInitializer {
 	override fun onInitialize() {
 		registerBlocks()
 		registerItems()
+		registerBlockEntities()
 	}
 
 	/*
@@ -128,13 +130,30 @@ object JAPTA2: ModInitializer {
 		}
 	}
 
-	fun basicBlockItem(block: Block): BlockItem {
-		val tr = BlockItem(block, Item.Settings())
+	fun registerBlockEntities() {
+		TileEntityChargingPlate.type = registerBlockEntity("chargingplate", ::TileEntityChargingPlate)
+		TileEntityEater.type = registerBlockEntity("eater", ::TileEntityEater)
+		TileEntityElevatorTop.type = registerBlockEntity("elevatortop", ::TileEntityElevatorTop)
+		TileEntityFluxBlaster.type = registerBlockEntity("fluxblaster", ::TileEntityFluxBlaster)
+		TileEntityItemBlaster.type = registerBlockEntity("itemblaster", ::TileEntityItemBlaster)
+		TileEntityFluxHopper.type = registerBlockEntity("fluxhopper", ::TileEntityFluxHopper)
+		TileEntityFurnaceHeater.type = registerBlockEntity("furnaceheater", ::TileEntityFurnaceHeater)
+		TileEntityFurnaceSiphon.type = registerBlockEntity("furnacesiphon", ::TileEntityFurnaceSiphon)
+		TileEntityMover.type = registerBlockEntity("mover", ::TileEntityMover)
+		TileEntityPowerCabinetBase.type = registerBlockEntity("powercabinetbase", ::TileEntityPowerCabinetBase)
+	}
+
+	fun basicBlockItem(block: Block, group: ItemGroup): BlockItem {
+		val tr = BlockItem(block, Item.Settings().itemGroup(group))
 		return tr
 	}
 
-	fun <T: BlockEntity>registerBlockEntity(name: String, builder: BlockEntityType.Builder<T>): BlockEntityType<T> {
-		return Registry.register(Registry.BLOCK_ENTITY, ID + ":" + name, builder.method_11034(null))
+	private fun <T: BlockEntity>registerBlockEntity(name: String, supplier: () -> T): BlockEntityType<T> {
+		return registerBlockEntityB(name, BlockEntityType.Builder.create(supplier))
+	}
+
+	private fun <T: BlockEntity>registerBlockEntityB(name: String, builder: BlockEntityType.Builder<T>): BlockEntityType<T> {
+		return Registry.register(Registry.BLOCK_ENTITY, Identifier(ID, name), builder.method_11034(null))
 	}
 
 	/*

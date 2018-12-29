@@ -12,20 +12,21 @@ import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.block.entity.FurnaceBlockEntity
+import net.minecraft.item.ItemGroup
 import net.minecraft.util.math.Direction
 import net.minecraft.util.Tickable
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 object BlockFurnaceHeater: BlockModelContainer(Block.Settings.of(Material.METAL).strength(3f, 3f)) {
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 
 	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityFurnaceHeater()
 }
 
-class TileEntityFurnaceHeater: TileEntityJPT(Type), Tickable {
+class TileEntityFurnaceHeater: TileEntityJPT(type), Tickable {
 	companion object {
-		val Type = JAPTA2.registerBlockEntity("furnaceheater", BlockEntityType.Builder.create(::TileEntityFurnaceHeater))
+		lateinit var type: BlockEntityType<TileEntityFurnaceHeater>
 		val TICK_COST = 30
 	}
 

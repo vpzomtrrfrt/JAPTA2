@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateFactory
 import net.minecraft.state.property.EnumProperty
@@ -27,7 +28,7 @@ object BlockFluxHopper: BlockModelContainer(Block.Settings.of(Material.METAL).st
 		setDefaultState(stateFactory.getDefaultState().with(FACING, Direction.DOWN))
 	}
 
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 
 	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityFluxHopper()
 
@@ -45,9 +46,9 @@ object BlockFluxHopper: BlockModelContainer(Block.Settings.of(Material.METAL).st
 	}
 }
 
-class TileEntityFluxHopper: TileEntityJPT(Type), Tickable {
+class TileEntityFluxHopper: TileEntityJPT(type), Tickable {
 	companion object {
-		val Type = JAPTA2.registerBlockEntity("fluxhopper", BlockEntityType.Builder.create(::TileEntityFluxHopper))
+		lateinit var type: BlockEntityType<TileEntityFluxHopper>
 	}
 	override fun getMaxStoredEnergy(): Long {
 		return 6000

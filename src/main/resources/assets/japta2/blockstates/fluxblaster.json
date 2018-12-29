@@ -1,10 +1,10 @@
 {
     "variants": {
-        "facing=down":  { "model": "japta2:fluxblaster", "x": 180 },
-        "facing=up":    { "model": "japta2:fluxblaster" },
-        "facing=north": { "model": "japta2:fluxblaster", "x": 90 },
-        "facing=south": { "model": "japta2:fluxblaster", "x": 270 },
-        "facing=west":  { "model": "japta2:fluxblaster", "x": 90, "y": 270 },
-        "facing=east":  { "model": "japta2:fluxblaster", "x": 90, "y": 90 }
+        "facing=down":  { "model": "japta2:block/fluxblaster", "x": 180 },
+        "facing=up":    { "model": "japta2:block/fluxblaster" },
+        "facing=north": { "model": "japta2:block/fluxblaster", "x": 90 },
+        "facing=south": { "model": "japta2:block/fluxblaster", "x": 270 },
+        "facing=west":  { "model": "japta2:block/fluxblaster", "x": 90, "y": 270 },
+        "facing=east":  { "model": "japta2:block/fluxblaster", "x": 90, "y": 90 }
     }
 }

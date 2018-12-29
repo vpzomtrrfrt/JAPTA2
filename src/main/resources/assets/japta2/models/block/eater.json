@@ -1,14 +1,14 @@
 {
 	"parent": "block/block",
 	"textures": {
-		"particle": "japta2:blocks/eater_side",
-		"h_inside": "blocks/hopper_inside",
-		"h_top": "blocks/hopper_top",
-		"h_bottom": "blocks/hopper_inside",
-		"h_side": "blocks/hopper_inside",
-		"e_side": "japta2:blocks/eater_side",
-		"e_bottom": "japta2:blocks/machinebase",
-		"e_top": "japta2:blocks/machinebase"
+		"particle": "japta2:block/eater_side",
+		"h_inside": "block/hopper_inside",
+		"h_top": "block/hopper_top",
+		"h_bottom": "block/hopper_inside",
+		"h_side": "block/hopper_inside",
+		"e_side": "japta2:block/eater_side",
+		"e_bottom": "japta2:block/machinebase",
+		"e_top": "japta2:block/machinebase"
 	},
 	"elements": [
 		{

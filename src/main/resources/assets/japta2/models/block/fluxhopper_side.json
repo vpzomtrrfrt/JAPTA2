@@ -1,9 +1,9 @@
 {
 	"parent": "block/hopper_side",
 	"textures": {
-		"particle": "japta2:blocks/fluxhopper",
-		"top": "japta2:blocks/fluxhopper",
-		"side": "japta2:blocks/fluxhopper",
-		"inside": "japta2:blocks/fluxhopper"
+		"particle": "japta2:block/fluxhopper",
+		"top": "japta2:block/fluxhopper",
+		"side": "japta2:block/fluxhopper",
+		"inside": "japta2:block/fluxhopper"
 	}
 }

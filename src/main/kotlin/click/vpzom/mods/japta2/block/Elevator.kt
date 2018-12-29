@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.item.ItemGroup
 import net.minecraft.entity.LivingEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
@@ -19,20 +20,20 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 object BlockElevatorShaft: Block(Block.Settings.of(Material.GLASS).strength(1f, 1f)) {
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 }
 
 object BlockElevatorTop: BlockModelContainer(Block.Settings.of(Material.METAL).strength(3f, 3f)) {
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 	val USE_BASE = 1000
 	val USE_EXTRA = 100
 
 	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityElevatorTop()
 }
 
-class TileEntityElevatorTop: TileEntityJPT(Type), Tickable {
+class TileEntityElevatorTop: TileEntityJPT(type), Tickable {
 	companion object {
-		val Type = JAPTA2.registerBlockEntity("elevatorTop", BlockEntityType.Builder.create(::TileEntityElevatorTop))
+		lateinit var type: BlockEntityType<TileEntityElevatorTop>
 	}
 	override fun getMaxStoredEnergy(): Long {
 		return 26000

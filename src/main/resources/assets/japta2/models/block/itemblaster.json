@@ -1,7 +1,7 @@
 {
     "parent": "japta2:block/blaster",
     "textures": {
-        "front": "japta2:blocks/itemblaster_front",
-	"side": "japta2:blocks/itemblaster_side"
+        "front": "japta2:block/itemblaster_front",
+	"side": "japta2:block/itemblaster_side"
     }
 }

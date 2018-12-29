@@ -12,6 +12,7 @@ import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.FoodItem
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.predicate.entity.EntityPredicates
@@ -26,7 +27,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 object BlockEater: BlockModelContainer(Block.Settings.of(Material.STONE).strength(1f, 1f)) {
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 
 	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityEater()
 }
@@ -51,9 +52,9 @@ data class EaterState(val totalTime: Int, val multiplier: Float, var elapsedTime
 val TIME_MULT = 32
 val POWER_MULT = 10
 
-class TileEntityEater: TileEntityJPT(Type), Inventory, Tickable {
+class TileEntityEater: TileEntityJPT(type), Inventory, Tickable {
 	companion object {
-		val Type = JAPTA2.registerBlockEntity("eater", BlockEntityType.Builder.create(::TileEntityEater))
+		lateinit var type: BlockEntityType<TileEntityEater>
 	}
 	private var stack = ItemStack.EMPTY
 	private var state: EaterState? = null

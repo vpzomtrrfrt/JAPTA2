@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "japta2:blocks/furnaceheater"
+		"all": "japta2:block/furnaceheater"
 	}
 }

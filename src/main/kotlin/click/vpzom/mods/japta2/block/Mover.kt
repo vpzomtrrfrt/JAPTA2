@@ -11,6 +11,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.state.StateFactory
@@ -29,7 +30,7 @@ object BlockMover: BlockModelContainer(Block.Settings.of(Material.STONE).strengt
 		setDefaultState(stateFactory.getDefaultState().with(MOVER_FACING, Direction.UP))
 	}
 
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 
 	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityMover()
 
@@ -49,9 +50,9 @@ object BlockMover: BlockModelContainer(Block.Settings.of(Material.STONE).strengt
 
 val USE = 50
 
-class TileEntityMover: TileEntityJPT(Type), Tickable {
+class TileEntityMover: TileEntityJPT(type), Tickable {
 	companion object {
-		public val Type = JAPTA2.registerBlockEntity("mover", BlockEntityType.Builder.create(::TileEntityMover))
+		lateinit var type: BlockEntityType<TileEntityMover>
 	}
 
 	override fun tick() {

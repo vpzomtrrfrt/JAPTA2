@@ -1,5 +1,5 @@
 {
 	"variants": {
-		"normal": {"model": "japta2:eater"}
+		"": {"model": "japta2:block/eater"}
 	}
 }

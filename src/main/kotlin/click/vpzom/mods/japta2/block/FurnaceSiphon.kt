@@ -11,20 +11,21 @@ import net.minecraft.block.Material
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.block.entity.FurnaceBlockEntity
+import net.minecraft.item.ItemGroup
 import net.minecraft.util.math.Direction
 import net.minecraft.util.Tickable
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
 object BlockFurnaceSiphon: BlockModelContainer(Block.Settings.of(Material.METAL).strength(2f, 2f)) {
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 
 	override fun createBlockEntity(view: BlockView): BlockEntity = TileEntityFurnaceSiphon()
 }
 
-class TileEntityFurnaceSiphon: TileEntityJPT(Type), Tickable {
+class TileEntityFurnaceSiphon: TileEntityJPT(type), Tickable {
 	companion object {
-		val Type = JAPTA2.registerBlockEntity("furnacesiphon", BlockEntityType.Builder.create(::TileEntityFurnaceSiphon))
+		lateinit var type: BlockEntityType<TileEntityFurnaceSiphon>
 		val TICK_VALUE = 2
 	}
 

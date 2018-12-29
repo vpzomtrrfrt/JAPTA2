@@ -1,5 +1,5 @@
 {
 	"variants": {
-		"normal": {"model": "japta2:powerCabinetBase"}
+		"": {"model": "japta2:block/powerCabinetBase"}
 	}
 }

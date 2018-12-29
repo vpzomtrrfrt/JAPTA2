@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Material
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateFactory
 import net.minecraft.util.math.Direction
@@ -26,7 +27,7 @@ abstract class BlockBlaster(settings: Block.Settings, val name: String, val inha
 		setDefaultState(stateFactory.getDefaultState().with(BlockBlaster.PROP_FACING, Direction.UP))
 	}
 
-	val item = JAPTA2.basicBlockItem(this)
+	val item = JAPTA2.basicBlockItem(this, ItemGroup.REDSTONE)
 
 	override fun appendProperties(builder: StateFactory.Builder<Block, BlockState>) {
 		builder.with(PROP_FACING)

@@ -1,5 +1,5 @@
 {
 	"variants": {
-		"normal": {"model": "japta2:furnacesiphon"}
+		"": {"model": "japta2:block/furnacesiphon"}
 	}
 }

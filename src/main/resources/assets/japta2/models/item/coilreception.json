@@ -1,6 +1,6 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "japta2:items/coilreception"
+		"layer0": "japta2:item/coilreception"
 	}
 }

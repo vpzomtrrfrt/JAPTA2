@@ -1,8 +1,8 @@
 {
 	"parent": "block/cube_bottom_top",
 	"textures": {
-		"bottom": "japta2:blocks/machinebase",
-		"side": "japta2:blocks/powercabinetbase_side",
-		"top": "japta2:blocks/powercabinetbase_top"
+		"bottom": "japta2:block/machinebase",
+		"side": "japta2:block/powercabinetbase_side",
+		"top": "japta2:block/powercabinetbase_top"
 	}
 }

@@ -1,26 +1,26 @@
 {
 	"forge_marker": 1,
 	"defaults": {
-		"model": "japta2:powercabinet_walls"
+		"model": "japta2:block/powercabinet_walls"
 	},
 	"variants": {
 		"value": {
 			"0": {},
-			"1": {"submodel": {"fill": {"model": "japta2:powercabinet_fill1"}}},
-			"2": {"submodel": {"fill": {"model": "japta2:powercabinet_fill2"}}},
-			"3": {"submodel": {"fill": {"model": "japta2:powercabinet_fill3"}}},
-			"4": {"submodel": {"fill": {"model": "japta2:powercabinet_fill4"}}},
-			"5": {"submodel": {"fill": {"model": "japta2:powercabinet_fill5"}}},
-			"6": {"submodel": {"fill": {"model": "japta2:powercabinet_fill6"}}},
-			"7": {"submodel": {"fill": {"model": "japta2:powercabinet_fill7"}}},
-			"8": {"submodel": {"fill": {"model": "japta2:powercabinet_fill8"}}},
-			"9": {"submodel": {"fill": {"model": "japta2:powercabinet_fill9"}}},
-			"10": {"submodel": {"fill": {"model": "japta2:powercabinet_fill10"}}},
-			"11": {"submodel": {"fill": {"model": "japta2:powercabinet_fill11"}}},
-			"12": {"submodel": {"fill": {"model": "japta2:powercabinet_fill12"}}},
-			"13": {"submodel": {"fill": {"model": "japta2:powercabinet_fill13"}}},
-			"14": {"submodel": {"fill": {"model": "japta2:powercabinet_fill14"}}},
-			"15": {"submodel": {"fill": {"model": "japta2:powercabinet_fill15"}}}
+			"1": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill1"}}},
+			"2": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill2"}}},
+			"3": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill3"}}},
+			"4": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill4"}}},
+			"5": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill5"}}},
+			"6": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill6"}}},
+			"7": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill7"}}},
+			"8": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill8"}}},
+			"9": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill9"}}},
+			"10": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill10"}}},
+			"11": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill11"}}},
+			"12": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill12"}}},
+			"13": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill13"}}},
+			"14": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill14"}}},
+			"15": {"submodel": {"fill": {"model": "japta2:block/powercabinet_fill15"}}}
 		}
 	}
 }

@@ -1,9 +1,9 @@
 {
     "variants": {
-        "facing=down": { "model": "japta2:fluxhopper_down" },
-        "facing=north": { "model": "japta2:fluxhopper_side" },
-        "facing=south": { "model": "japta2:fluxhopper_side", "y": 180 },
-        "facing=west": { "model": "japta2:fluxhopper_side", "y": 270 },
-        "facing=east": { "model": "japta2:fluxhopper_side", "y": 90 }
+        "facing=down": { "model": "japta2:block/fluxhopper_down" },
+        "facing=north": { "model": "japta2:block/fluxhopper_side" },
+        "facing=south": { "model": "japta2:block/fluxhopper_side", "y": 180 },
+        "facing=west": { "model": "japta2:block/fluxhopper_side", "y": 270 },
+        "facing=east": { "model": "japta2:block/fluxhopper_side", "y": 90 }
     }
 }

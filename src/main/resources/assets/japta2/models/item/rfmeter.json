@@ -1,6 +1,6 @@
 {
 	"parent": "item/handheld",
 	"textures": {
-		"layer0": "japta2:items/rfmeter"
+		"layer0": "japta2:item/rfmeter"
 	}
 }

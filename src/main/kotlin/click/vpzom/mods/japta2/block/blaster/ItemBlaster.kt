@@ -46,9 +46,9 @@ class BlockItemBlaster private constructor(name: String, inhale: Boolean, split:
 
 val SIZE = 9
 
-class TileEntityItemBlaster: BlockEntity(Type), Tickable, Inventory {
+class TileEntityItemBlaster: BlockEntity(type), Tickable, Inventory {
 	companion object {
-		public val Type = JAPTA2.registerBlockEntity("itemblaster", BlockEntityType.Builder.create(::TileEntityItemBlaster))
+		lateinit var type: BlockEntityType<TileEntityItemBlaster>
 	}
 
 	private val inv = Array(SIZE, { ItemStack.EMPTY })

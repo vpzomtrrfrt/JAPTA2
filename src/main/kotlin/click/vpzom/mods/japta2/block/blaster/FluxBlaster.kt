@@ -23,9 +23,9 @@ class BlockFluxBlaster private constructor(name: String, inhale: Boolean): Block
 	}
 }
 
-class TileEntityFluxBlaster: TileEntityJPT(Type), Tickable {
+class TileEntityFluxBlaster: TileEntityJPT(type), Tickable {
 	companion object {
-		public val Type = JAPTA2.registerBlockEntity("fluxblaster", BlockEntityType.Builder.create(::TileEntityFluxBlaster))
+		lateinit var type: BlockEntityType<TileEntityFluxBlaster>
 	}
 	override fun getMaxStoredEnergy(): Long {
 		return 10000

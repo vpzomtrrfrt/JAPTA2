@@ -1,5 +1,5 @@
 {
 	"variants": {
-		"normal": {"model": "japta2:elevatortop"}
+		"": {"model": "japta2:block/elevatortop"}
 	}
 }
