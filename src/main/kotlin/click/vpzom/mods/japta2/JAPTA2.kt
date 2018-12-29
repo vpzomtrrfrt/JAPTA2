@@ -26,6 +26,7 @@ import click.vpzom.mods.japta2.block.blaster.TileEntityItemBlaster
 import click.vpzom.mods.japta2.item.ItemBatteryPotato
 import click.vpzom.mods.japta2.item.ItemCoil
 import click.vpzom.mods.japta2.item.ItemRFMeter
+import net.fabricmc.api.ModInitializer
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -36,8 +37,13 @@ import net.minecraft.item.block.BlockItem
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-object JAPTA2 {
+object JAPTA2: ModInitializer {
 	const val ID = "japta2"
+
+	override fun onInitialize() {
+		registerBlocks()
+		registerItems()
+	}
 
 	/*
 	fun clientInit(event: FMLInitializationEvent) {
