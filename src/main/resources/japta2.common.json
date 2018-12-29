@@ -3,7 +3,7 @@
 	"package": "click.vpzom.mods.japta2.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"mixins": [
-		"FurnaceMixin"
+		"MixinFurnace"
 	],
 	"injectors": {
 		"defaultRequire": 1
