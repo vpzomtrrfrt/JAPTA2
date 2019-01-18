@@ -6,16 +6,21 @@ import click.vpzom.mods.japta2.block.util.InventoryHelper
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.block.BlockState
+import net.minecraft.container.Container
+import net.minecraft.container.Generic3x3Container
+import net.minecraft.container.NameableContainerProvider
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.text.TextComponent
 import net.minecraft.text.TranslatableTextComponent
-import net.minecraft.util.math.Direction
+import net.minecraft.util.BlockHitResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Tickable
+import net.minecraft.util.math.Direction
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
 import net.minecraft.world.IWorld
@@ -33,8 +38,8 @@ class BlockItemBlaster private constructor(name: String, inhale: Boolean, split:
 		return TileEntityItemBlaster()
 	}
 
-	override fun activate(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, side: Direction, f1: Float, f2: Float, f3: Float): Boolean {
-		player.openInventory(world.getBlockEntity(pos) as Inventory)
+	override fun activate(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): Boolean {
+		player.openContainer(world.getBlockEntity(pos) as NameableContainerProvider)
 		return true
 	}
 
@@ -46,7 +51,7 @@ class BlockItemBlaster private constructor(name: String, inhale: Boolean, split:
 
 val SIZE = 9
 
-class TileEntityItemBlaster: BlockEntity(type), Tickable, Inventory {
+class TileEntityItemBlaster: BlockEntity(type), Tickable, Inventory, NameableContainerProvider {
 	companion object {
 		lateinit var type: BlockEntityType<TileEntityItemBlaster>
 	}
@@ -169,7 +174,7 @@ class TileEntityItemBlaster: BlockEntity(type), Tickable, Inventory {
 
 	override fun getInvSize(): Int = SIZE
 
-	override fun getName(): TextComponent {
+	override fun getDisplayName(): TextComponent {
 		return TranslatableTextComponent(world?.getBlockState(pos)?.block?.translationKey + ".name")
 	}
 
@@ -192,5 +197,9 @@ class TileEntityItemBlaster: BlockEntity(type), Tickable, Inventory {
 
 	override fun canPlayerUseInv(player: PlayerEntity): Boolean {
 		return player.squaredDistanceTo(pos.x + 0.5, pos.y + 0.5, pos.z + 0.5) < 64
+	}
+
+	override fun createMenu(syncId: Int, playerInv: PlayerInventory, player: PlayerEntity): Container? {
+		return Generic3x3Container(syncId, playerInv, this)
 	}
 }

@@ -153,7 +153,7 @@ object JAPTA2: ModInitializer {
 	}
 
 	private fun <T: BlockEntity>registerBlockEntityB(name: String, builder: BlockEntityType.Builder<T>): BlockEntityType<T> {
-		return Registry.register(Registry.BLOCK_ENTITY, Identifier(ID, name), builder.method_11034(null))
+		return Registry.register(Registry.BLOCK_ENTITY, Identifier(ID, name), builder.build(null))
 	}
 
 	/*

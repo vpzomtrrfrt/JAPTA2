@@ -152,7 +152,6 @@ class TileEntityEater: TileEntityJPT(type), Inventory, Tickable {
 		stack = ItemStack.EMPTY
 	}
 	override fun getInvSize(): Int = 1
-	override fun getName(): TextComponent = TranslatableTextComponent("tile.eater.name")
 	override fun isInvEmpty(): Boolean = stack.isEmpty()
 	override fun isValidInvStack(slot: Int, stack: ItemStack): Boolean = slot == 0
 	override fun getInvMaxStackAmount(): Int = 1

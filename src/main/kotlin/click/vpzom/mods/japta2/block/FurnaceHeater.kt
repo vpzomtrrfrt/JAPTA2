@@ -6,6 +6,7 @@ import click.vpzom.mods.japta2.block.util.EnergyHelper
 import click.vpzom.mods.japta2.block.util.FurnaceHelper
 import click.vpzom.mods.japta2.block.util.TileEntityJPT
 import click.vpzom.mods.japta2.mixin.MixinFurnace
+import click.vpzom.mods.japta2.mixin.MixinFurnaceFields
 import net.minecraft.block.AbstractFurnaceBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Material
@@ -46,15 +47,18 @@ class TileEntityFurnaceHeater: TileEntityJPT(type), Tickable {
 
 			if(target is FurnaceBlockEntity) {
 				if((target as MixinFurnace).callIsBurning()) {
-					if(FurnaceHelper.canSmelt(target) && target.getInvProperty(0) < 2) {
-						target.setInvProperty(0, target.getInvProperty(0) + 1)
-						stored -= TICK_COST
+					if(FurnaceHelper.canSmelt(target)) {
+						val burnTime = (target as MixinFurnaceFields).getBurnTime()
+						if(burnTime < 2) {
+							(target as MixinFurnaceFields).setBurnTime(burnTime + 1)
+							stored -= TICK_COST
+						}
 					}
 				}
 				else {
 					if(FurnaceHelper.canSmelt(target)) {
 						if(stored >= TICK_COST * (target as MixinFurnace).callGetCookTime()) {
-							target.setInvProperty(0, 2)
+							(target as MixinFurnaceFields).setBurnTime(2)
 							stored -= TICK_COST
 							world.setBlockState(targetPos, world.getBlockState(targetPos).with(AbstractFurnaceBlock.field_11105, true), 3)
 						}
